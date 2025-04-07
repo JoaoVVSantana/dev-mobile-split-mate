@@ -1,75 +1,162 @@
-import { Image, StyleSheet, Platform } from 'react-native';
-
-import { HelloWave } from '@/components/Expo/HelloWave';
-import ParallaxScrollView from '@/components/Expo/ParallaxScrollView';
-import { ThemedText } from '@/components/Expo/ThemedText';
-import { ThemedView } from '@/components/Expo/ThemedView';
-import React from 'react';
+import React, { useState } from 'react';
+import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
+import TitleComponent from '../../components/components/TitleComponent';
+import EventCard from '../../components/components/EventCard';
+import SearchBar from '../../components/components/SearchBar'; 
+import FloatingButton from '../../components/components/FloatingButton'; 
 
 export default function HomeScreen() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [showOptions, setShowOptions] = useState(false); 
+  const [isOverlayActive, setIsOverlayActive] = useState(false); 
+  
+  const events = [
+    "Casa da Letícia",
+    "Churras do João",
+    "Festa de Aniversário",
+    "Reunião de Trabalho",
+    "Festa de Aniversário",
+    "Reunião de Trabalho",
+    "Festa de Aniversário",
+    "Reunião de Trabalho",
+    "Casa da Letícia",
+    "Churras do João",
+    "Festa de Aniversário",
+    "Reunião de Trabalho",
+    "Festa de Aniversário",
+    "Reunião de Trabalho",
+    "Festa de Aniversário",
+    "Reunião de Trabalho"
+  ];
+
+  const filteredEvents = events.filter(event =>
+    event.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const toggleOptions = () => {
+    setShowOptions(!showOptions);
+    setIsOverlayActive(!isOverlayActive); 
+  };
+
+  const closeOptions = () => {
+    setShowOptions(false);
+    setIsOverlayActive(false);
+  };
+
+  const renderEvents = () => {
+    const isHorizontal = filteredEvents.length <= 5;
+
+    return (
+      <View style={[styles.eventsContainer, isHorizontal ? styles.horizontal : styles.grid]}>
+        {filteredEvents.map((event, index) => (
+          <View key={index} style={[styles.eventButtonContainer, isHorizontal && styles.horizontalEvent]}>
+            <EventCard eventName={event} />
+          </View>
+        ))}
+      </View>
+    );
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+    <View style={styles.container}>
+      <TitleComponent title="Meus eventos" />
+
+      <SearchBar 
+        placeholder="Procurar eventos"
+        onChangeText={setSearchQuery}
+      />
+      
+      <ScrollView>
+        {renderEvents()}
+      </ScrollView>
+
+      {isOverlayActive && (
+        <TouchableWithoutFeedback onPress={closeOptions}>
+          <View style={styles.overlay} />
+        </TouchableWithoutFeedback>
+      )}
+
+      <FloatingButton onPress={toggleOptions} />
+
+      {showOptions && (
+        <View style={styles.optionsContainer}>
+          <TouchableOpacity style={styles.optionButton} onPress={() => console.log("Novo evento")}>
+            <Text style={styles.optionText}>Novo evento</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.optionButton} onPress={() => console.log("Editar eventos")}>
+            <Text style={styles.optionText}>Editar eventos</Text>
+          </TouchableOpacity>
+        </View>
+      )}
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
+  container: {
+    flex: 1,
+    backgroundColor: 'white',
+    padding: 20,
+    paddingTop: 50,
+  },
+
+  eventsContainer: {
     flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  horizontal: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  eventButtonContainer: {
+    width: '48%',
+    marginBottom: 10,
+  },
+
+  horizontalEvent: {
+    width: '100%', 
+    marginBottom: 10,
+  },
+  secondEvent: {
+    marginLeft: '4%',
+  },
+
+  overlay: {
     position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    backgroundColor: 'rgba(255, 255, 255, 0.7)', 
+    zIndex: 0, 
+  },
+  optionsContainer: {
+    position: 'absolute',
+    right: 20,
+    bottom: 90, 
+
+    elevation: 5, 
+    padding: 10,
+    width: 160, 
+    zIndex: 2, 
+  },
+  optionButton: {
+    backgroundColor: '#5a139a', 
+    marginBottom: 10,
+    paddingVertical: 10,
+    borderRadius: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  optionText: {
+    color: 'white',
+    fontSize: 16,
+    textAlign: 'center',
   },
 });
