@@ -1,10 +1,9 @@
-// FloatingButton.js
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const FloatingButton = ({ onPress }: { onPress: () => void }) => {
+const FloatingButton = ({ onPress, color = '#5a139a' }: { onPress: () => void; color?: string }) => {
   return (
-    <TouchableOpacity style={styles.floatingButton} onPress={onPress}>
+    <TouchableOpacity style={[styles.floatingButton, { backgroundColor: color }]} onPress={onPress}>
       <Text style={styles.floatingButtonText}>+</Text>
     </TouchableOpacity>
   );

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
-import TitleComponent from '../../components/components/TitleComponent';
-import EventCard from '../../components/components/EventCard';
-import SearchBar from '../../components/components/SearchBar'; 
-import FloatingButton from '../../components/components/FloatingButton'; 
+import TitleComponent from '../components/components/TitleComponent';
+import EventCard from '../components/components/EventCard';
+import SearchBar from '../components/components/SearchBar'; 
+import FloatingButton from '../components/components/FloatingButton'; 
+import {router, useRouter} from 'expo-router';
+import AddExpenseButton from '@/components/components/AddExpenseButton';
 
 export default function HomeScreen() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -15,18 +17,6 @@ export default function HomeScreen() {
     "Churras do João",
     "Festa de Aniversário",
     "Reunião de Trabalho",
-    "Festa de Aniversário",
-    "Reunião de Trabalho",
-    "Festa de Aniversário",
-    "Reunião de Trabalho",
-    "Casa da Letícia",
-    "Churras do João",
-    "Festa de Aniversário",
-    "Reunião de Trabalho",
-    "Festa de Aniversário",
-    "Reunião de Trabalho",
-    "Festa de Aniversário",
-    "Reunião de Trabalho"
   ];
 
   const filteredEvents = events.filter(event =>
@@ -50,7 +40,7 @@ export default function HomeScreen() {
       <View style={[styles.eventsContainer, isHorizontal ? styles.horizontal : styles.grid]}>
         {filteredEvents.map((event, index) => (
           <View key={index} style={[styles.eventButtonContainer, isHorizontal && styles.horizontalEvent]}>
-            <EventCard eventName={event} />
+            <EventCard eventName={event} color = "#38a37f" />
           </View>
         ))}
       </View>
@@ -59,12 +49,9 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.container}>
-      <TitleComponent title="Meus eventos" />
+      <TitleComponent title="Carnaval" color = "#5a139a" />
 
-      <SearchBar 
-        placeholder="Procurar eventos"
-        onChangeText={setSearchQuery}
-      />
+      <AddExpenseButton title="Adicionar despesa"/>
       
       <ScrollView>
         {renderEvents()}
@@ -80,11 +67,11 @@ export default function HomeScreen() {
 
       {showOptions && (
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.optionButton} onPress={() => console.log("Novo evento")}>
-            <Text style={styles.optionText}>Novo evento</Text>
+          <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/ScreenMeusEventos')}>
+            <Text style={styles.optionText}>Meus Eventos</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={() => console.log("Editar eventos")}>
-            <Text style={styles.optionText}>Editar eventos</Text>
+            <Text style={styles.optionText}>Novo Evento</Text>
           </TouchableOpacity>
         </View>
       )}
@@ -140,14 +127,13 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 20,
     bottom: 90, 
-
     elevation: 5, 
     padding: 10,
     width: 160, 
     zIndex: 2, 
   },
   optionButton: {
-    backgroundColor: '#5a139a', 
+    backgroundColor: '#38a37f', 
     marginBottom: 10,
     paddingVertical: 10,
     borderRadius: 100,

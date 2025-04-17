@@ -1,9 +1,9 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
 
-const EventCard = ({ eventName }: { eventName: string }) => {
+const EventCard = ({ eventName, color }: { eventName: string; color: string }) => {
   return (
-    <TouchableOpacity style={styles.eventButton}>
+    <TouchableOpacity style={[styles.eventButton, { backgroundColor: color }]}>
       <Text style={styles.eventText}>{eventName}</Text>
     </TouchableOpacity>
   );
@@ -12,15 +12,14 @@ const EventCard = ({ eventName }: { eventName: string }) => {
 const styles = StyleSheet.create({
   eventButton: {
     fontWeight: 'bold',
-    backgroundColor: '#5a139a',
     paddingVertical: 15,
-    paddingHorizontal: 10, 
+    paddingHorizontal: 10,
     borderRadius: 30,
     justifyContent: 'center',
     alignItems: 'center',
     marginBottom: 10,
-    width: '100%', 
-    height: 80, 
+    width: '100%',
+    height: 80,
   },
   eventText: {
     color: 'white',
