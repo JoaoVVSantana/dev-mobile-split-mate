@@ -6,7 +6,7 @@ const AddExpenseButton = ({ title }: { title: string;}) => {
   const router = useRouter();
 
   return (
-    <TouchableOpacity style={styles.button} onPress={() => router.push(router as unknown as "/ScreenNovaDespesa" )}>
+    <TouchableOpacity style={styles.button} onPress={() => router.push(router as unknown as "/ScreenEvento" )}>
       <Text style={styles.buttonText}>{title}</Text>
     </TouchableOpacity>
   );

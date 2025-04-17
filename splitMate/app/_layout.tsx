@@ -21,22 +21,26 @@ export default function RootLayout() {
 
   useEffect(() => {
     if (loaded) {
+      console.log('Fonts loaded');
       SplashScreen.hideAsync();
     }
   }, [loaded]);
 
   if (!loaded) {
+    console.log('Fonts not loaded yet');
+    SplashScreen.hideAsync();
     return null;
   }
 
   if (isLoading) {
+    console.log('Loading layout...');
     return <LoadingScreen onFinish={() => setIsLoading(false)} />;
   }
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="ScreenMeusEventos" options={{ headerShown: false }} />
         <Stack.Screen name="ScreenNovoEvento" options={{ title: "Explore" }} />
         <Stack.Screen name="+not-found" />
       </Stack>
