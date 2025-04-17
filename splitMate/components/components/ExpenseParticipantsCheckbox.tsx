@@ -15,7 +15,6 @@ const ParticipantsCheckboxes: React.FC<ParticipantsCheckboxesProps> = ({
   return (
     <View style={styles.container}>
       <Text style={styles.label}>Participantes</Text>
-      {/* Contêiner da lista de checkboxes com borda */}
       <View style={styles.checkboxContainerWrapper}>
         <ScrollView style={styles.scrollView}>
           {participants.map((participant, index) => (

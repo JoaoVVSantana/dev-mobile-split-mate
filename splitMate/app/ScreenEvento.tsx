@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback } from 'react-native';
 import TitleComponent from '../components/components/TitleComponent';
 import EventCard from '../components/components/EventCard';
-import SearchBar from '../components/components/SearchBar'; 
 import FloatingButton from '../components/components/FloatingButton'; 
 import {router, useRouter} from 'expo-router';
 import AddExpenseButton from '@/components/components/AddExpenseButton';
