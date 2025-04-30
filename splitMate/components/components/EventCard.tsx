@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     height: 80,
   },
   eventText: {
-    color: 'grey',
+    color: 'white',
     fontSize: 16,
     textAlign: 'center',
   },
