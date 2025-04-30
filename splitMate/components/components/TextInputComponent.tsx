@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, TextInput, Text, StyleSheet } from 'react-native';
 
-interface TextInputExpenseValueProps {
+interface TextInputComponentProps {
   label: string;
   value: string;
   onChangeText: (text: string) => void;
@@ -9,7 +9,7 @@ interface TextInputExpenseValueProps {
   placeholder?: string;
 }
 
-const TextInputExpenseValue: React.FC<TextInputExpenseValueProps> = ({ label, value, onChangeText, keyboardType = 'default', placeholder }) => {
+const TextInputComponent: React.FC<TextInputComponentProps> = ({ label, value, onChangeText, keyboardType = 'default', placeholder }) => {
   return (
     <View style={styles.container}>
       <Text style={styles.label}>{label}</Text>
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TextInputExpenseValue;
+export default TextInputComponent;

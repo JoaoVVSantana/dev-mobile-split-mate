@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, ScrollView, Alert } from 'react-native';
 import TitleComponent from '../components/components/TitleComponent'; 
-import TextInputExpenseValue from '../components/components/TextInputExpenseValue';
+import TextInputComponent from '../components/components/TextInputComponent';
 import ParticipantsCheckboxes from '../components/components/ExpenseParticipantsCheckbox';
 import CreateButton from '../components/components/CreateButton';
 import { router } from 'expo-router';
@@ -50,14 +50,14 @@ export default function NewExpenseScreen() {
       <TitleComponent title="Nova Despesa" color="#38a37f" />
       
       <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
-        <TextInputExpenseValue
+        <TextInputComponent
           label="Nome"
           value={name}
           onChangeText={setName}
           placeholder='Digite o nome da despesa'
         />
 
-        <TextInputExpenseValue
+        <TextInputComponent
           label="Valor"
           value={value}
           onChangeText={handleValueChange}
