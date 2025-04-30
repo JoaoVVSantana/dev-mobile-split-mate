@@ -1,9 +1,15 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 
-const EventCard = ({ eventName, color }: { eventName: string; color: string }) => {
+interface EventCardProps {
+  eventName: string;
+  color: string;
+  onPress?: () => void;
+}
+
+const EventCard: React.FC<EventCardProps> = ({ eventName, color, onPress }) => {
   return (
-    <TouchableOpacity style={[styles.eventButton, { backgroundColor: color }]}>
+    <TouchableOpacity style={[styles.eventButton, { backgroundColor: color }]} onPress={onPress}>
       <Text style={styles.eventText}>{eventName}</Text>
     </TouchableOpacity>
   );

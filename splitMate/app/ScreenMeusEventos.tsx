@@ -51,7 +51,7 @@ export default function HomeScreen() {
       <View style={[styles.eventsContainer, isHorizontal ? styles.horizontal : styles.grid]}>
         {filteredEvents.map((event, index) => (
           <View key={index} style={[styles.eventButtonContainer, isHorizontal && styles.horizontalEvent]}>
-            <EventCard eventName={event} color="#5a139a" />
+            <EventCard eventName={event} color="#5a139a" onPress={() => router.push('/ScreenEvento')} />
           </View>
         ))}
       </View>
@@ -81,7 +81,7 @@ export default function HomeScreen() {
 
       {showOptions && (
         <View style={styles.optionsContainer}>
-          <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/ScreenEvento')}>
+          <TouchableOpacity style={styles.optionButton} onPress={() => router.push('/ScreenNovoEvento')}>
             <Text style={styles.optionText}>Novo evento</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.optionButton} onPress={() => console.log("Editar eventos")}>
