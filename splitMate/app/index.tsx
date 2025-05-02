@@ -6,8 +6,8 @@ export default function Index() {
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      console.log('Redirecting to /ScreenMeusEventos');
-      router.replace('/ScreenMeusEventos');
+      console.log('Redirecting to Home');
+      router.replace('./tabs/HomeScreen');
     }, 0);
 
     return () => clearTimeout(timeout);
