@@ -8,7 +8,7 @@ const BackArrowButton = () => {
 
   return (
     <TouchableOpacity style={styles.button} onPress={() => router.back()}>
-      <Ionicons name="arrow-back" size={24} color="white" />
+      <Ionicons name="arrow-back" size={24} color="#5a139a" />
     </TouchableOpacity>
   );
 };
