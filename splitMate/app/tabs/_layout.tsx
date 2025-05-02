@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import 'react-native-reanimated';
 import React from 'react';
 import { useColorScheme } from '../hooks/Color/useColorScheme';
-import LoadingScreen from '../views/LoadingScreen';
+import LoadingScreen from '~/views/LoadingScreen';
 import { View } from 'react-native';
 import CustomTabBar from '../components/TabBar/CustomTabBar';
 

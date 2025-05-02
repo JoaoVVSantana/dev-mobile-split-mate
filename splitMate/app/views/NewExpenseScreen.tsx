@@ -1,17 +1,17 @@
 import React from 'react';
 import { View, ScrollView } from 'react-native';
-import TitleComponent from '../components/Title/TitleComponent';
-import ParticipantsCheckboxes from '../components/Checkbox/ParticipantsCheckbox';
-import CreateButton from '../components/Buttons/CreateButton';
-import BackArrowButton from '../components/Buttons/BackArrowButton';
-import TextInputBase from '../components/Text/TextInputBase';
-import { useNewExpenseScreen } from '../hooks/Screen/useNewExpenseScreen';
+import TitleComponent from '~/components/Title/TitleComponent';
+import ParticipantsCheckboxes from '~/components/Checkbox/ParticipantsCheckbox';
+import CreateButton from '~/components/Buttons/CreateButton';
+import BackArrowButton from '~/components/Buttons/BackArrowButton';
+import TextInputBase from '~/components/Text/TextInputBase';
+import { useNewExpenseScreen } from '~/hooks/Screen/useNewExpenseScreen';
 
 import {
   container,
   scrollContainer,
   createButtonContainer,
-} from '../styles/NewExpenseStyles';
+} from '~/styles/NewExpenseStyles';
 import { EFormatTypes } from '~/types/EFormatTypes';
 
 export default function NewExpenseScreen() {

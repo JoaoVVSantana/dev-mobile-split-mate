@@ -9,7 +9,7 @@ import Animated, {
 import React from 'react';
 
 import { useBottomTabOverflow } from '~/tabs/TabBarBackground';
-import { useColorScheme } from '../hooks/Color/useColorScheme.web';
+import { useColorScheme } from '~/hooks/Color/useColorScheme.web';
 import { ThemedView } from './ThemedView';
 
 
