@@ -1,7 +1,7 @@
 import React from 'react';
 import { TextInput, StyleSheet, TextInputProps, View, Text } from 'react-native';
 import { formatCurrency, formatDate } from '../../utils/formatters';
-import { EFormatTypes } from '@/app/types/EFormatTypes';
+import { EFormatTypes } from '~/types/EFormatTypes';
 interface TextInputBaseProps extends TextInputProps {
   label?: string;
   labelColor?: string;

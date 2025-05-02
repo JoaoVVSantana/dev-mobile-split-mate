@@ -1,8 +1,8 @@
 import { PropsWithChildren, useState } from 'react';
 import { StyleSheet, TouchableOpacity, useColorScheme } from 'react-native';
 import React from 'react';
-import { IconSymbol } from '@/app/tabs/IconSymbol';
-import { Colors } from '@/app/constants/Colors';
+import { IconSymbol } from '~/tabs/IconSymbol';
+import { Colors } from '~/constants/Colors';
 import { ThemedView } from './ThemedView';
 import { ThemedText } from './ThemedText';
 

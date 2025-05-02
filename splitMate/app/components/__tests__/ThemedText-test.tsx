@@ -1,4 +1,4 @@
-import { ThemedText } from '@/app/core-ui/ThemedText';
+import { ThemedText } from '~/core-ui/ThemedText';
 import * as React from 'react';
 import renderer from 'react-test-renderer';
 

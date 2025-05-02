@@ -1,15 +1,20 @@
-import React from "react";
-import { View, StyleSheet, ScrollView, Text } from "react-native";
-import Toast from "react-native-toast-message";
+import React from 'react';
+import { View, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 
-import BackArrowButton from "../components/Buttons/BackArrowButton";
-import TitleComponent from "../components/Title/TitleComponent";
-import CreateButton from "../components/Buttons/CreateButton";
-import TextInputBase from "../components/Text/TextInputBase";
-import { useNewEventScreen } from "../hooks/Screen/useNewEventScreen";
-import { EFormatTypes } from "../types/EFormatTypes";
-import NewEventForm from "../components/Form/NewEventForm";
-import ParticipantsCheckboxes from "../components/Checkbox/ParticipantsCheckbox";
+import BackArrowButton from '../components/Buttons/BackArrowButton';
+import TitleComponent from '../components/Title/TitleComponent';
+import CreateButton from '../components/Buttons/CreateButton';
+import TextInputBase from '../components/Text/TextInputBase';
+import { useNewEventScreen } from '../hooks/Screen/useNewEventScreen';
+import { EFormatTypes } from '../types/EFormatTypes';
+import NewEventForm from '../components/Form/NewEventForm';
+import ParticipantsCheckboxes from '../components/Checkbox/ParticipantsCheckbox';
+
+import {
+  container,
+  scrollContainer,
+} from '~/styles/NewEventStyles';
 
 export default function NewEventScreen() {
   const {
@@ -22,15 +27,14 @@ export default function NewEventScreen() {
     handleToggle,
     handleCreateEvent,
   } = useNewEventScreen();
-  
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <BackArrowButton />
       <TitleComponent title="Novo evento" color="#ffffff" />
 
       <ScrollView
-        contentContainerStyle={styles.scrollContainer}
+        contentContainerStyle={scrollContainer}
         showsVerticalScrollIndicator={false}
       >
         <NewEventForm>
@@ -62,7 +66,7 @@ export default function NewEventScreen() {
             label="Quem vai participar?"
             labelColor="#fff"
             containerStyle={{ marginTop: 30 }}
-            checkboxStyle={{ borderColor: "white" }}
+            checkboxStyle={{ borderColor: 'white' }}
           />
 
           <CreateButton onPress={handleCreateEvent} />
@@ -73,24 +77,3 @@ export default function NewEventScreen() {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#5a139a",
-    paddingTop: 50,
-    paddingHorizontal: 20,
-  },
-  scrollContainer: {
-    paddingBottom: 50,
-  },
-  participantList: {
-    marginTop: 10,
-    paddingLeft: 10,
-  },
-  participant: {
-    color: "white",
-    fontSize: 16,
-    marginVertical: 2,
-  },
-});

@@ -8,7 +8,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import React from 'react';
 
-import { useBottomTabOverflow } from '@/app/tabs/TabBarBackground';
+import { useBottomTabOverflow } from '~/tabs/TabBarBackground';
 import { useColorScheme } from '../hooks/Color/useColorScheme.web';
 import { ThemedView } from './ThemedView';
 

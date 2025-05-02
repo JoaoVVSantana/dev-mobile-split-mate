@@ -1,12 +1,18 @@
 import React from 'react';
-import { View, StyleSheet, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import TitleComponent from '../components/Title/TitleComponent';
 import ParticipantsCheckboxes from '../components/Checkbox/ParticipantsCheckbox';
 import CreateButton from '../components/Buttons/CreateButton';
-import { useNewExpenseScreen } from '../hooks/Screen/useNewExpenseScreen';
 import BackArrowButton from '../components/Buttons/BackArrowButton';
 import TextInputBase from '../components/Text/TextInputBase';
+import { useNewExpenseScreen } from '../hooks/Screen/useNewExpenseScreen';
 
+import {
+  container,
+  scrollContainer,
+  createButtonContainer,
+} from '../styles/NewExpenseStyles';
+import { EFormatTypes } from '~/types/EFormatTypes';
 
 export default function NewExpenseScreen() {
   const {
@@ -21,11 +27,11 @@ export default function NewExpenseScreen() {
   } = useNewExpenseScreen();
 
   return (
-    <View style={styles.container}>
+    <View style={container}>
       <BackArrowButton />
       <TitleComponent title="Nova Despesa" color="#38a37f" />
 
-      <ScrollView contentContainerStyle={styles.scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView contentContainerStyle={scrollContainer} showsVerticalScrollIndicator={false}>
         <TextInputBase
           label="Nome da despesa"
           value={name}
@@ -34,7 +40,6 @@ export default function NewExpenseScreen() {
           labelColor="#38a37f"
           placeholderTextColor="#ccc"
           backgroundColor="#5a139a"
-          
         />
 
         <TextInputBase
@@ -46,7 +51,7 @@ export default function NewExpenseScreen() {
           labelColor="#38a37f"
           placeholderTextColor="#ccc"
           backgroundColor="#5a139a"
-          formatType="currency"
+          formatType = {EFormatTypes.Currency}
         />
 
         <ParticipantsCheckboxes
@@ -56,28 +61,9 @@ export default function NewExpenseScreen() {
         />
       </ScrollView>
 
-      <View style={styles.createButtonContainer}>
+      <View style={createButtonContainer}>
         <CreateButton onPress={handleCreate} />
       </View>
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#ffffff',
-    paddingTop: 50,
-    paddingHorizontal: 20,
-  },
-  scrollContainer: {
-    paddingBottom: 80,
-  },
-  createButtonContainer: {
-    position: 'absolute',
-    bottom: 60,
-    left: 20,
-    right: 20,
-    zIndex: 1,
-  },
-});

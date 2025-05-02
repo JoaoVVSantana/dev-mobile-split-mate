@@ -2,7 +2,10 @@
 import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 import { useRouter } from 'expo-router';
-import { IconSymbol } from '@/app/tabs/IconSymbol';
+import { IconSymbol } from '~/tabs/IconSymbol';
+import AntDesign from '@expo/vector-icons/AntDesign';
+
+
 
 
 export default function CustomTabBar() {
@@ -14,8 +17,8 @@ export default function CustomTabBar() {
         <IconSymbol name="house.fill" size={28} color="#5a139a" />
       </TouchableOpacity>
       
-      { <TouchableOpacity onPress={() => router.push(/*Colocar Contatos aq depois */'')} style={styles.iconButton}>
-        <IconSymbol name="person.2.fill" size={28} color="#5a139a" />
+      { <TouchableOpacity onPress={() => router.push('../../tabs/UserScreen')} style={styles.iconButton}>
+        <AntDesign name="user" size={24} color="black" />
       </TouchableOpacity>}
     </View>
   );
