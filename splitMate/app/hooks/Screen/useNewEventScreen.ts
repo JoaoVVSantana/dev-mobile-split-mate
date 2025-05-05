@@ -16,7 +16,7 @@ export function useNewEventScreen() {
   const { friends } = useCommunityStore();
   const router = useRouter();
 
-  const availableParticipants = friends.map((friend: TFriend) => friend);
+  const availableParticipants = friends.map((friend: TFriend) => friend.name);
 
   const handleToggle = (participant: string) => {
     setParticipants((prev) =>
@@ -32,7 +32,7 @@ export function useNewEventScreen() {
         id:'0',
         title: eventName.trim(),
         date: eventDate.trim(),
-        participants: availableParticipants,
+        participants: friends,
         expenses: [],
       };
 

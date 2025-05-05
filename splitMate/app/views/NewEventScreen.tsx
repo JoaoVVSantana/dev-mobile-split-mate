@@ -22,7 +22,7 @@ export default function NewEventScreen() {
     handleToggle,
     handleCreateEvent,
   } = useNewEventScreen();
-  
+  console.log(participants);
   return (
     <View style={container}>
       <BackArrowButton />
@@ -55,7 +55,7 @@ export default function NewEventScreen() {
           />
 
           <ParticipantsCheckboxes
-            participants={participants}
+            participants={availableParticipants}
             selectedParticipants={participants}
             onSelectParticipant={handleToggle}
             label="Quem vai participar?"
