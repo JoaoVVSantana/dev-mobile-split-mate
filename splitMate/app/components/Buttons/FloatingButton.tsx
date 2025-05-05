@@ -4,7 +4,7 @@ import { TouchableOpacity, Text, StyleSheet } from 'react-native';
 const FloatingButton = ({ onPress, color = '#5a139a' }: { onPress: () => void; color?: string }) => {
   return (
     <TouchableOpacity style={[styles.floatingButton, { backgroundColor: color }]} onPress={onPress}>
-      <Text style={styles.floatingButtonText}>=</Text>
+      <Text style={styles.floatingButtonText}>+</Text>
     </TouchableOpacity>
   );
 };
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingTop: 1,
+    lineHeight:20,
   },
   
 });

@@ -3,6 +3,7 @@ import { useCurrentEventStore } from '~/store/useCurrentEventStore';
 import { TEvent } from '~/types/TEvent'; 
 import { router } from 'expo-router';
 import { EventManager } from '~/core/Event/EventManager';
+import { useCommunityStore } from '~/store/useCommunityStore';
 
 export const useHomeScreen = () => {
   const { events, setEvents, setCurrentEvent, removeEvent } = useCurrentEventStore();
@@ -10,6 +11,7 @@ export const useHomeScreen = () => {
   const [showOptions, setShowOptions] = useState(false);
   const [isOverlayActive, setIsOverlayActive] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const { loadFriends } = useCommunityStore();
 
   useEffect(() => {
     const fetchEvents = async () => {
@@ -21,6 +23,17 @@ export const useHomeScreen = () => {
       }
     };
     fetchEvents();
+  }, []);
+
+  useEffect(() => {
+    const fetchFriends = async () => {
+      try {
+        loadFriends();
+      } catch (error) {
+        console.error('Erro ao buscar amigos:', error);
+      }
+    };
+    fetchFriends();
   }, []);
 
   const toggleOptions = () => {

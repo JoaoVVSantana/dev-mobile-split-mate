@@ -43,7 +43,6 @@ export default function HomeScreen() {
   } = useHomeScreen();
 
   const [isEditing, setIsEditing] = useState(false);
-
   const isHorizontal = filteredEvents.length <= 5;
   const layoutStyle = isHorizontal ? horizontal : grid;
 

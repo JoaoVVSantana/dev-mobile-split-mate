@@ -3,7 +3,7 @@ import { useFonts } from 'expo-font';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import 'react-native-reanimated';
 import React from 'react';
 import { useColorScheme } from '../hooks/Color/useColorScheme';
@@ -20,18 +20,18 @@ export default function RootLayout() {
     SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
   });
 
+  const hasLoadedRef = useRef(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
+useEffect(() => {
+  if (loaded && !hasLoadedRef.current) {
+    hasLoadedRef.current = true;
     SplashScreen.hideAsync();
-    return null;
+    setIsLoading(false);
   }
+}, [loaded]);
+
+
 
   if (isLoading) {
     return <LoadingScreen onFinish={() => setIsLoading(false)} />;
