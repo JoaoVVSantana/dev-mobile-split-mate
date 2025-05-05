@@ -1,15 +1,11 @@
 import { useState } from 'react';
 import { Alert } from 'react-native';
-
-interface Friend {
-  name: string;
-  email?: string;
-}
+import { TFriend } from '~/types/TFriend';
 
 export function useCommunityScreen() {
   const [friendName, setFriendName] = useState('');
   const [friendEmail, setFriendEmail] = useState('');
-  const [friendsList, setFriendsList] = useState<Friend[]>([]);
+  const [friendsList, setFriendsList] = useState<TFriend[]>([]);
 
   const handleConfirm = () => {
     if (!friendName.trim()) {
@@ -17,7 +13,7 @@ export function useCommunityScreen() {
       return;
     }
 
-    const newFriend: Friend = { name: friendName.trim(), email: friendEmail.trim() || '' };
+    const newFriend: TFriend = { name: friendName.trim(), email: friendEmail.trim() || '' };
 
     setFriendsList((prev) => [...prev, newFriend]);
 

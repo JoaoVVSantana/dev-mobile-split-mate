@@ -1,27 +1,51 @@
-import { Alert } from "react-native";
-import { useCurrentEventStore } from "~/store/useCurrentEventStore";
+import { useCurrentEventStore } from '~/store/useCurrentEventStore';
+import { TExpense } from '~/types/TExpense';
+import { TParticipant } from '~/types/TParticipant';
+
 export function useCreateNewExpense() {
-    const { eventId } = useCurrentEventStore();
-  
-    const createExpense = ({
+  const { currentEvent, setCurrentEvent, setEvents, events } = useCurrentEventStore();
+
+  const createExpense = ({
+    name,
+    value,
+    participants,
+  }: {
+    name: string;
+    value: string;
+    participants: string[];
+  }) => {
+    if (!name || !value || participants.length === 0) {
+      return false;
+    }
+
+    if (!currentEvent) return false;
+
+ 
+    const expenseParticipants: TParticipant[] = currentEvent.participants.filter((p) =>
+      participants.includes(p.name)
+    );
+
+    const newExpense: TExpense = {
       name,
-      value,
-      participants,
-    }: {
-      name: string;
-      value: string;
-      participants: string[];
-    }) => {
-      if (!name || !value || participants.length === 0) {
-        Alert.alert('Erro', 'Por favor, preencha todos os campos.');
-        return false;
-      }
-  
-      console.log('Despesa criada:', { name, value, participants, eventId });
-  
-      return true;
+      value: parseFloat(value.replace(',', '.')),
+      isPayed: false,
+      participants: expenseParticipants,
     };
-  
-    return { createExpense };
-  }
-  
+
+    const updatedEvent = {
+      ...currentEvent,
+      expenses: [...currentEvent.expenses, newExpense],
+    };
+
+    setCurrentEvent(updatedEvent);
+
+    const updatedEvents = events.map((e) =>
+      e.id === updatedEvent.id ? updatedEvent : e
+    );
+    setEvents(updatedEvents);
+
+    return true;
+  };
+
+  return { createExpense };
+}

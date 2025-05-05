@@ -44,7 +44,7 @@ const HomeScreenStyles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     right: 20,
-    bottom: 90,
+    top: 120,
     elevation: 5,
     padding: 10,
     width: 160,
@@ -62,6 +62,13 @@ const HomeScreenStyles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     textAlign: 'center',
+  },
+  titleRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 20, 
+    marginTop: 20,         
   },
 });
 

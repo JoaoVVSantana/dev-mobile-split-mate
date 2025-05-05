@@ -1,20 +1,17 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import Toast from 'react-native-toast-message';
+import React from "react";
+import { View, ScrollView, Alert } from "react-native";
 
-import BackArrowButton from '~/components/Buttons/BackArrowButton';
-import TitleComponent from '~/components/Title/TitleComponent';
-import CreateButton from '~/components/Buttons/CreateButton';
-import TextInputBase from '~/components/Text/TextInputBase';
-import { useNewEventScreen } from '~/hooks/Screen/useNewEventScreen';
-import { EFormatTypes } from '~/types/EFormatTypes';
-import NewEventForm from '~/components/Form/NewEventForm';
-import ParticipantsCheckboxes from '~/components/Checkbox/ParticipantsCheckbox';
 
-import {
-  container,
-  scrollContainer,
-} from '~/styles/NewEventStyles';
+import BackArrowButton from "~/components/Buttons/BackArrowButton";
+import TitleComponent from "~/components/Title/TitleComponent";
+import CreateButton from "~/components/Buttons/CreateButton";
+import TextInputBase from "~/components/Text/TextInputBase";
+import { useNewEventScreen } from "~/hooks/Screen/useNewEventScreen";
+import { EFormatTypes } from "~/types/EFormatTypes";
+import NewEventForm from "~/components/Form/NewEventForm";
+import ParticipantsCheckboxes from "~/components/Checkbox/ParticipantsCheckbox";
+
+import { container, scrollContainer } from "~/styles/NewEventStyles";
 
 export default function NewEventScreen() {
   const {
@@ -27,7 +24,7 @@ export default function NewEventScreen() {
     handleToggle,
     handleCreateEvent,
   } = useNewEventScreen();
-
+  
   return (
     <View style={container}>
       <BackArrowButton />
@@ -66,14 +63,18 @@ export default function NewEventScreen() {
             label="Quem vai participar?"
             labelColor="#fff"
             containerStyle={{ marginTop: 30 }}
-            checkboxStyle={{ borderColor: 'white' }}
+            checkboxStyle={{ borderColor: "white" }}
           />
 
-          <CreateButton onPress={handleCreateEvent} />
+          <CreateButton
+            onPress={handleCreateEvent}
+            backgroundColor="#38a37f"
+            textColor="#ffffff"
+          />
         </NewEventForm>
       </ScrollView>
 
-      <Toast />
+     
     </View>
   );
 }

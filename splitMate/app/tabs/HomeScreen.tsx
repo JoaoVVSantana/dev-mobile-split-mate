@@ -1,11 +1,12 @@
-import React from 'react';
+import React, { useState } from "react";
 import {
   View,
   ScrollView,
   Text,
   TouchableOpacity,
   TouchableWithoutFeedback,
-} from 'react-native';
+  Alert,
+} from "react-native";
 
 import {
   container,
@@ -18,13 +19,14 @@ import {
   optionsContainer,
   optionButton,
   optionText,
-} from '~/styles/HomeStyles';
+} from "~/styles/HomeStyles";
 
-import EventCard from '../components/Card/EventCard';
-import TitleComponent from '../components/Title/TitleComponent';
-import SearchBar from '../components/Search/SearchBar';
-import FloatingButton from '../components/Buttons/FloatingButton';
-import { useHomeScreen } from '../hooks/Screen/useHomeScreen';
+import EventCard from "../components/Card/EventCard";
+import TitleComponent from "../components/Title/TitleComponent";
+import SearchBar from "../components/Search/SearchBar";
+import FloatingButton from "../components/Buttons/FloatingButton";
+import { useHomeScreen } from "../hooks/Screen/useHomeScreen";
+import { TEvent } from "~/types/TEvent";
 
 export default function HomeScreen() {
   const {
@@ -37,19 +39,47 @@ export default function HomeScreen() {
     filteredEvents,
     navigateToEvent,
     navigateToNewEvent,
+    deleteEvent,
   } = useHomeScreen();
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const isHorizontal = filteredEvents.length <= 5;
   const layoutStyle = isHorizontal ? horizontal : grid;
 
+  const handleDelete = (event: TEvent) => {
+    Alert.alert(
+      "Confirmar exclusão",
+      "Deseja realmente excluir este evento?",
+      [
+        { text: "Cancelar", style: "cancel" },
+        {
+          text: "OK",
+          onPress: () => {
+            deleteEvent(event);
+          },
+        },
+      ]
+    );
+  };
+
   return (
     <View style={container}>
-      <TitleComponent title="Meus eventos" />
+        <TitleComponent title="Meus eventos" />
+        <FloatingButton color="#38a37f" onPress={toggleOptions} />
 
-      <SearchBar
-        placeholder="Procurar eventos"
-        onChangeText={setSearchQuery}
-      />
+
+      {showOptions && (
+        <View style={optionsContainer}>
+          <OptionButton label="Novo evento" onPress={navigateToNewEvent} />
+          <OptionButton
+            label={isEditing ? "Finalizar edição" : "Editar eventos"}
+            onPress={() => setIsEditing((prev) => !prev)}
+          />
+        </View>
+      )}
+
+      <SearchBar placeholder="Procurar eventos" onChangeText={setSearchQuery} />
 
       <ScrollView>
         <View style={[eventsContainer, layoutStyle]}>
@@ -62,6 +92,8 @@ export default function HomeScreen() {
                 eventName={event.title}
                 color="#5a139a"
                 onPress={() => navigateToEvent(event)}
+                isEditing={isEditing}
+                onDelete={() => handleDelete(event)}
               />
             </View>
           ))}
@@ -72,15 +104,6 @@ export default function HomeScreen() {
         <TouchableWithoutFeedback onPress={closeOptions}>
           <View style={overlay} />
         </TouchableWithoutFeedback>
-      )}
-
-      <FloatingButton color="#38a37f" onPress={toggleOptions} />
-
-      {showOptions && (
-        <View style={optionsContainer}>
-          <OptionButton label="Novo evento" onPress={navigateToNewEvent} />
-          <OptionButton label="Editar eventos" onPress={() => console.log('Editar eventos')} />
-        </View>
       )}
     </View>
   );

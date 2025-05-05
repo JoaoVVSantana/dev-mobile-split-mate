@@ -1,13 +1,13 @@
 import { EventService } from './EventService';
-import { EventData } from '~/types/EventData';
+import { TEvent } from '~/types/TEvent';
 
 export const EventManager = {
-  async getAllEvents(): Promise<EventData[]> {
+  async getAllEvents(): Promise<TEvent[]> {
     const events = await EventService.getAll();
     return events;
   },
 
-  async getEventById(id: string): Promise<EventData> {
+  async getEventById(id: string): Promise<TEvent> {
     const rawEvent = await EventService.getById(id);
 
     if (!rawEvent.title) {

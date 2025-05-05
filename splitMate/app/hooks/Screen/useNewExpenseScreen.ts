@@ -1,22 +1,20 @@
 import { useState } from 'react';
-import { useCreateNewExpense } from '~/hooks/Expense/useCreateNewExpense';
-import { useCurrentEventStore } from '~/store/useCurrentEventStore';
-import { Alert } from 'react-native';
 import { router } from 'expo-router';
+
+import { useCurrentEventStore } from '~/store/useCurrentEventStore';
+import { useCreateNewExpense } from '~/hooks/Expense/useCreateNewExpense';
+import { useToastFeedback, EToastVariants } from '~/components/Toast/ToastFeedback';
 
 export function useNewExpenseScreen() {
   const [name, setName] = useState('');
   const [value, setValue] = useState('');
   const [selectedParticipants, setSelectedParticipants] = useState<string[]>([]);
 
-  const [participants] = useState([
-    'Ana Luíza', 'Letícia Costa', 'Murilo Silva',
-    'Carlos Souza', 'João Pereira', 'Maria Oliveira',
-    'Fernanda Lima', 'Lucas Santos', 'Juliana Almeida',
-  ]);
-
-  const { eventId } = useCurrentEventStore();
+  const { currentEvent } = useCurrentEventStore();
   const { createExpense } = useCreateNewExpense();
+  const { showToast } = useToastFeedback();
+
+  const participants = currentEvent?.participants?.map(p => p.name) || [];
 
   const handleValueChange = (text: string) => {
     setValue(text.replace(/[^0-9,]/g, ''));
@@ -31,19 +29,42 @@ export function useNewExpenseScreen() {
   };
 
   const handleCreate = () => {
-    const success = createExpense({
-      name,
-      value,
-      participants: selectedParticipants,
-    });
+    try {
+      const success = createExpense({
+        name,
+        value,
+        participants: selectedParticipants,
+      });
 
-    if (success && eventId) {
-      Alert.alert('Sucesso', 'Despesa criada com sucesso!', [
-        {
-          text: 'OK',
-          onPress: () => router.push(`/views/EventScreen?eventId=${eventId}`),
-        },
-      ]);
+      if (success) {
+        showToast({
+          variant: EToastVariants.SUCCESS,
+          message: 'Despesa criada com sucesso!',
+        });
+
+        setTimeout(() => {
+          try {
+            router.push('/views/EventScreen');
+          } catch (error) {
+            console.error('Erro ao redirecionar:', error);
+            showToast({
+              variant: EToastVariants.ERROR,
+              message: 'Erro ao redirecionar para a tela do evento.',
+            });
+          }
+        }, 1500);
+      } else {
+        showToast({
+          variant: EToastVariants.ERROR,
+          message: 'Erro ao criar despesa. Verifique os dados.',
+        });
+      }
+    } catch (error) {
+      console.error('Erro inesperado ao criar despesa:', error);
+      showToast({
+        variant: EToastVariants.ERROR,
+        message: 'Erro inesperado ao criar despesa.',
+      });
     }
   };
 

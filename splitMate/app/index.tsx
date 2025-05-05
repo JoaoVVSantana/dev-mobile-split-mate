@@ -14,4 +14,4 @@ export default function Index() {
   }, [router]);
 
   return null;
-}
+} 

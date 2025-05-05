@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
     top: 50,
     left: 20,
     zIndex: 10,
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: "#38a37f",
     padding: 8,
     borderRadius: 20,
   },

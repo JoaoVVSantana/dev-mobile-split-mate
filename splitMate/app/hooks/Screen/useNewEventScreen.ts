@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { Alert } from 'react-native';
+import { Platform } from 'react-native';
 import { useRouter } from 'expo-router';
+import Toast from 'react-native-toast-message';
+
 import { useCurrentEventStore } from '~/store/useCurrentEventStore';
 
 export function useNewEventScreen() {
@@ -32,19 +34,21 @@ export function useNewEventScreen() {
   };
 
   const handleCreateEvent = () => {
-    const fakeId = Date.now().toString(); // Mudar aqui depois do DB
-  
-    console.log({ eventName, eventDate, participants });
-    setEventId(fakeId);
-  
-    Alert.alert('Sucesso', 'Evento criado com sucesso!', [
-      {
-        text: 'OK',
-        onPress: () => router.push('../tabs/home'),
-      },
-    ]);
+    try {
+      console.log({ eventName, eventDate, participants });
+
+      Toast.show({
+        type: 'success',
+        text1: 'Evento criado com sucesso!',
+      });
+
+      setTimeout(() => {
+        router.push('../../tabs/HomeScreen');
+      }, 500); // Delay pequeno para garantir exibição do toast antes da navegação
+    } catch (error) {
+      console.error('Erro ao criar evento:', error);
+    }
   };
-  
 
   return {
     eventName,

@@ -10,6 +10,7 @@ import { useColorScheme } from '../hooks/Color/useColorScheme';
 import LoadingScreen from '~/views/LoadingScreen';
 import { View } from 'react-native';
 import CustomTabBar from '../components/TabBar/CustomTabBar';
+import { ToastProvider } from '~/components/Toast/ToastFeedback';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -37,12 +38,14 @@ export default function RootLayout() {
   }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <View style={{ flex: 1 }}>
-        <Stack screenOptions={{ headerShown: false }} />
-        <CustomTabBar />
-      </View>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    <ToastProvider> 
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <View style={{ flex: 1 }}>
+          <Stack screenOptions={{ headerShown: false }} />
+          <CustomTabBar />
+        </View>
+        <StatusBar style="auto" />
+      </ThemeProvider>
+    </ToastProvider>
   );
 }

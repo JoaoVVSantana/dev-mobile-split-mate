@@ -1,34 +1,31 @@
 import { useEffect, useState } from 'react';
+import { useCurrentEventStore } from '~/store/useCurrentEventStore'; 
+import { TEvent } from '~/types/TEvent'; 
 import { router } from 'expo-router';
-import { EventData } from '~/types/EventData';
 import { EventManager } from '~/core/Event/EventManager';
 
-export function useHomeScreen() {
+export const useHomeScreen = () => {
+  const { events, setEvents, setCurrentEvent, removeEvent } = useCurrentEventStore();
   const [searchQuery, setSearchQuery] = useState('');
   const [showOptions, setShowOptions] = useState(false);
   const [isOverlayActive, setIsOverlayActive] = useState(false);
-  const [events, setEvents] = useState<EventData[]>([]);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const fetchEvents = async () => {
       try {
-        const allEvents = await EventManager.getAllEvents();
-        setEvents(allEvents);
+        const data = await EventManager.getAllEvents();
+        setEvents(data);
       } catch (error) {
         console.error('Erro ao buscar eventos:', error);
       }
     };
-
     fetchEvents();
   }, []);
 
-  const filteredEvents = events.filter(event =>
-    event.title.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
   const toggleOptions = () => {
-    setShowOptions(!showOptions);
-    setIsOverlayActive(!isOverlayActive);
+    setShowOptions((prev) => !prev);
+    setIsOverlayActive((prev) => !prev);
   };
 
   const closeOptions = () => {
@@ -36,16 +33,34 @@ export function useHomeScreen() {
     setIsOverlayActive(false);
   };
 
-  const navigateToEvent = (event: EventData) => {
-    router.push({
-      pathname: '/views/EventScreen',
-      params: { eventId: event.id },
-    });
+  const navigateToNewEvent = () => {
+    try {
+      router.push('/views/NewEventScreen');
+    } catch (error) {
+      console.error('Erro ao navegar para criar novo evento:', error);
+    }
   };
 
-  const navigateToNewEvent = () => {
-    router.push('/views/NewEventScreen');
+  const navigateToEvent = (event: TEvent) => {
+    try {
+      setCurrentEvent(event);
+      router.push('/views/EventScreen');
+    } catch (error) {
+      console.error('Erro ao navegar para tela do evento:', error);
+    }
   };
+
+  const deleteEvent = (event: TEvent) => {
+    try {
+      removeEvent(event.id);
+    } catch (error) {
+      console.error('Erro ao remover evento:', error);
+    }
+  };
+
+  const filteredEvents = events.filter((event) =>
+    event.title.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return {
     searchQuery,
@@ -57,5 +72,8 @@ export function useHomeScreen() {
     filteredEvents,
     navigateToEvent,
     navigateToNewEvent,
+    isEditing,
+    setIsEditing,
+    deleteEvent,
   };
-}
+};

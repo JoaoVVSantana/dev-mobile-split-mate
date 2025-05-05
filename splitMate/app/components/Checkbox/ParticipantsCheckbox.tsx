@@ -73,6 +73,7 @@ const ParticipantsCheckboxes: React.FC<ParticipantsCheckboxesProps> = ({
 const styles = StyleSheet.create({
   container: {
     marginBottom: 20,
+    width:'50%',
   },
   label: {
     fontSize: 16,

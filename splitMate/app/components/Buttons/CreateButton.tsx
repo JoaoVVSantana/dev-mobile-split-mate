@@ -1,21 +1,25 @@
 import React from 'react';
-import { TouchableOpacity, Text, StyleSheet } from 'react-native';
+import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
 
 interface CreateButtonProps {
   onPress: () => void;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
-const CreateButton: React.FC<CreateButtonProps> = ({ onPress }) => {
+const CreateButton: React.FC<CreateButtonProps> = ({ onPress, backgroundColor = '#5a139a', textColor = 'white' }) => {
+  const buttonStyle: StyleProp<ViewStyle> = [styles.button, { backgroundColor }];
+  const textStyle: StyleProp<TextStyle> = [styles.buttonText, { color: textColor }];
+
   return (
-    <TouchableOpacity style={styles.button} onPress={onPress}>
-      <Text style={styles.buttonText}>Criar</Text>
+    <TouchableOpacity style={buttonStyle} onPress={onPress}>
+      <Text style={textStyle}>Criar</Text>
     </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   button: {
-    backgroundColor: '#5a139a',
     paddingVertical: 15,
     borderRadius: 100,
     justifyContent: 'center',
@@ -23,7 +27,6 @@ const styles = StyleSheet.create({
     width: '100%',
   },
   buttonText: {
-    color: 'white',
     fontSize: 18,
     fontWeight: 'bold',
   },
