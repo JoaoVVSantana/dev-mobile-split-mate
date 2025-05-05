@@ -1,6 +1,7 @@
 import { useCurrentEventStore } from '~/store/useCurrentEventStore';
+import { IExpenseParticipant } from '~/types/IExpenseParticipant';
 import { TExpense } from '~/types/TExpense';
-import { TParticipant } from '~/types/TParticipant';
+import { TFriend } from '~/types/TFriend';
 
 export function useCreateNewExpense() {
   const { currentEvent, setCurrentEvent, setEvents, events } = useCurrentEventStore();
@@ -21,7 +22,7 @@ export function useCreateNewExpense() {
     if (!currentEvent) return false;
 
  
-    const expenseParticipants: TParticipant[] = currentEvent.participants.filter((p) =>
+    const expenseParticipants: TFriend[] = currentEvent.participants.filter((p) =>
       participants.includes(p.name)
     );
 
@@ -29,7 +30,7 @@ export function useCreateNewExpense() {
       name,
       value: parseFloat(value.replace(',', '.')),
       isPayed: false,
-      participants: expenseParticipants,
+      participants: expenseParticipants as IExpenseParticipant[],
     };
 
     const updatedEvent = {

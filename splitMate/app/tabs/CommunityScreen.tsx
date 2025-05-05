@@ -3,7 +3,6 @@ import { View, ScrollView } from 'react-native';
 import TitleComponent from '../components/Title/TitleComponent';
 import TextInputBase from '../components/Text/TextInputBase';
 import CreateButton from '../components/Buttons/CreateButton';
-import BackArrowButton from '../components/Buttons/BackArrowButton';
 import { useCommunityScreen } from '~/hooks/Screen/useCommunityScreen';
 import { container, scrollContainer, buttonContainer } from '~/styles/CommunityStyles';
 import NewEventForm from '~/components/Form/NewEventForm';
@@ -19,9 +18,9 @@ export default function CommunityScreen() {
     handleConfirm,
   } = useCommunityScreen();
 
+  
   return (
     <View style={container}>
-      <BackArrowButton />
       <TitleComponent title="Adicionar amigo" color="#5a139a" />
 
       <ScrollView contentContainerStyle={scrollContainer} showsVerticalScrollIndicator={false}>
@@ -47,19 +46,22 @@ export default function CommunityScreen() {
           />
         </NewEventForm>
 
+        <NewEventForm>
         <ScrollView
-      style={{ maxHeight: 300 }} 
-      nestedScrollEnabled={true} 
-      showsVerticalScrollIndicator={false}
-    >
-      {friendsList.map((friend, index) => (
-        <FriendItem key={index} name={friend.name} email={friend.email} />
-      ))}
-    </ScrollView>
+          style={{ maxHeight: 200 }}
+          nestedScrollEnabled={true}
+          showsVerticalScrollIndicator={false}
+        >
+          {friendsList.map((friend, index) => (
+            <FriendItem key={index} name={friend.name} email={friend.email} />
+          ))}
+        </ScrollView>
+        </NewEventForm>
       </ScrollView>
-
+        
       <View style={buttonContainer}>
-        <CreateButton onPress={handleConfirm} />
+      <CreateButton onPress={handleConfirm} label="Adicionar amigo" />
+
       </View>
     </View>
   );

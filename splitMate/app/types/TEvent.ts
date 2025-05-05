@@ -1,11 +1,11 @@
 import { TExpense } from "./TExpense";
-import { TParticipant } from "./TParticipant";
+import { TFriend } from "./TFriend";
 
 export interface TEvent {
     id: string;
     title: string;
     date: string;
     expenses: TExpense[];
-    participants: TParticipant[];
+    participants: TFriend[];
   }
   

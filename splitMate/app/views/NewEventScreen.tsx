@@ -1,7 +1,5 @@
 import React from "react";
-import { View, ScrollView, Alert } from "react-native";
-
-
+import { View, ScrollView } from "react-native";
 import BackArrowButton from "~/components/Buttons/BackArrowButton";
 import TitleComponent from "~/components/Title/TitleComponent";
 import CreateButton from "~/components/Buttons/CreateButton";
@@ -57,7 +55,7 @@ export default function NewEventScreen() {
           />
 
           <ParticipantsCheckboxes
-            participants={availableParticipants}
+            participants={participants}
             selectedParticipants={participants}
             onSelectParticipant={handleToggle}
             label="Quem vai participar?"

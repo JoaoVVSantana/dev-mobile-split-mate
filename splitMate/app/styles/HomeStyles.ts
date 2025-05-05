@@ -44,7 +44,7 @@ const HomeScreenStyles = StyleSheet.create({
   optionsContainer: {
     position: 'absolute',
     right: 20,
-    top: 120,
+    top: 100,
     elevation: 5,
     padding: 10,
     width: 160,
@@ -84,6 +84,7 @@ export const {
   optionsContainer,
   optionButton,
   optionText,
+  titleRow
 } = HomeScreenStyles;
 
 export default HomeScreenStyles;

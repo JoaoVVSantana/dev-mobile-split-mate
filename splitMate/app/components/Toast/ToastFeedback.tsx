@@ -1,4 +1,3 @@
-// components/Toast/ToastFeedback.tsx
 import React, { createContext, useContext, useState, useCallback } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 

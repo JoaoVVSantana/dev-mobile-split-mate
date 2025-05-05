@@ -5,15 +5,16 @@ interface CreateButtonProps {
   onPress: () => void;
   backgroundColor?: string;
   textColor?: string;
+  label?: string;
 }
 
-const CreateButton: React.FC<CreateButtonProps> = ({ onPress, backgroundColor = '#5a139a', textColor = 'white' }) => {
+const CreateButton: React.FC<CreateButtonProps> = ({ onPress, backgroundColor = '#5a139a', textColor = 'white', label = 'Criar', }) => {
   const buttonStyle: StyleProp<ViewStyle> = [styles.button, { backgroundColor }];
   const textStyle: StyleProp<TextStyle> = [styles.buttonText, { color: textColor }];
 
   return (
     <TouchableOpacity style={buttonStyle} onPress={onPress}>
-      <Text style={textStyle}>Criar</Text>
+      <Text style={textStyle}>{label}</Text>
     </TouchableOpacity>
   );
 };

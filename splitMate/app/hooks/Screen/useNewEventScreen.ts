@@ -1,29 +1,22 @@
 import { useState } from 'react';
-import { Platform } from 'react-native';
 import { useRouter } from 'expo-router';
 import Toast from 'react-native-toast-message';
 
 import { useCurrentEventStore } from '~/store/useCurrentEventStore';
+import { useCommunityStore } from '~/store/useCommunityStore';
+import { TEvent } from '~/types/TEvent';
+import { TFriend } from '~/types/TFriend';
 
 export function useNewEventScreen() {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
   const [participants, setParticipants] = useState<string[]>([]);
-  const { setEventId } = useCurrentEventStore();
 
-  const availableParticipants = [
-    'Ana Luíza',
-    'Letícia Costa',
-    'Murilo Silva',
-    'Carlos Souza',
-    'João Pereira',
-    'Maria Oliveira',
-    'Fernanda Lima',
-    'Lucas Santos',
-    'Juliana Almeida',
-  ];
-
+  const { addEvent, setCurrentEvent } = useCurrentEventStore();
+  const { friends } = useCommunityStore();
   const router = useRouter();
+
+  const availableParticipants = friends.map((friend: TFriend) => friend);
 
   const handleToggle = (participant: string) => {
     setParticipants((prev) =>
@@ -35,7 +28,16 @@ export function useNewEventScreen() {
 
   const handleCreateEvent = () => {
     try {
-      console.log({ eventName, eventDate, participants });
+      const newEvent: TEvent = {
+        id:'0',
+        title: eventName.trim(),
+        date: eventDate.trim(),
+        participants: availableParticipants,
+        expenses: [],
+      };
+
+      addEvent(newEvent);
+      setCurrentEvent(newEvent);
 
       Toast.show({
         type: 'success',
@@ -44,7 +46,7 @@ export function useNewEventScreen() {
 
       setTimeout(() => {
         router.push('../../tabs/HomeScreen');
-      }, 500); // Delay pequeno para garantir exibição do toast antes da navegação
+      }, 500);
     } catch (error) {
       console.error('Erro ao criar evento:', error);
     }

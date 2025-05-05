@@ -12,7 +12,6 @@ export default function UserInformationScreen() {
 
   return (
     <View style={styles.container}>
-      <BackArrowButton />
       <TitleComponent title="Minha Conta" color="#5a139a" />
 
       <View style={styles.userInfoContainer}>

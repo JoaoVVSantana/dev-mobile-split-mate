@@ -1,43 +1,79 @@
 import { TEvent } from '~/types/TEvent';
-import { TParticipant } from '~/types/TParticipant';
+import { IExpenseParticipant } from '~/types/IExpenseParticipant';
+import { useCommunityStore } from '~/store/useCommunityStore';
+import { TFriend } from '~/types/TFriend';
 
-const participants: TParticipant[] = [
-  { name: 'João' },
-  { name: 'Maria' },
-  { name: 'Pedro' },
-];
-
-const mockEvents: TEvent[] = [
-  {
-    id: '1',
-    title: 'Carnaval',
-    date: '10/02/2025',
-    participants,
-    expenses: [
-      { name: 'Beats', value: 75.90, isPayed: false, participants },
-      { name: 'Uber', value: 43.80, isPayed: true, participants },
-    ],
-  },
-  {
-    id: '2',
-    title: 'Churrasco',
-    date: '15/03/2025',
-    participants,
-    expenses: [
-      { name: 'Carvão', value: 20.00, isPayed: false, participants },
-      { name: 'Carne', value: 120.00, isPayed: false, participants },
-    ],
-  },
-];
+const getParticipants = (): TFriend[] => {
+  const friends = useCommunityStore.getState().friends;
+  return friends.map(friend => ({ ...friend, debts: [] }));
+};
 
 export const EventService = {
+
   async getAll(): Promise<TEvent[]> {
-    return mockEvents;
+    const participants: TFriend[] = getParticipants()
+    const events: TEvent[] = [
+      {
+        id: '1',
+        title: 'Carnaval',
+        date: '10/02/2025',
+        participants,
+        expenses: [
+          {
+            name: 'Beats',
+            value: 75.90,
+            isPayed: false,
+            participants: participants.map((p, i) => ({
+              ...p,
+              hasPaid: i % 2 === 0,
+            })) as IExpenseParticipant[],
+          },
+          {
+            name: 'Uber',
+            value: 43.80,
+            isPayed: true,
+            participants: participants.map((p, i) => ({
+              ...p,
+              hasPaid: i % 2 === 0,
+            })) as IExpenseParticipant[],
+          },
+        ],
+      },
+      {
+        id: '2',
+        title: 'Churrasco',
+        date: '15/03/2025',
+        participants,
+        expenses: [
+          {
+            name: 'Carvão',
+            value: 20.00,
+            isPayed: false,
+            participants: participants.map(p => ({
+              ...p,
+              hasPaid: false,
+            })) as IExpenseParticipant[],
+          },
+          {
+            name: 'Carne',
+            value: 120.00,
+            isPayed: participants.every((_, i) => i !== 2),
+            participants: participants.map((p, i) => ({
+              ...p,
+              hasPaid: i !== 2,
+            })) as IExpenseParticipant[],
+          },
+        ],
+      },
+    ];
+
+    return events;
   },
 
   async getById(id: string): Promise<TEvent> {
-    const event = mockEvents.find(e => e.id === id);
-    if (!event) throw new Error('Evento não encontrado');
-    return event;
+    const all = await this.getAll();
+    const found = all.find(e => e.id === id);
+    if (!found) throw new Error('Evento não encontrado');
+    return found;
   },
 };

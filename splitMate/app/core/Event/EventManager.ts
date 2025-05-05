@@ -1,26 +1,18 @@
-import { EventService } from './EventService';
 import { TEvent } from '~/types/TEvent';
+import { EventService } from './EventService';
 
 export const EventManager = {
   async getAllEvents(): Promise<TEvent[]> {
-    const events = await EventService.getAll();
-    return events;
+    return EventService.getAll();
   },
 
   async getEventById(id: string): Promise<TEvent> {
-    const rawEvent = await EventService.getById(id);
+    const event = await EventService.getById(id);
 
-    if (!rawEvent.title) {
+    if (!event.title) {
       throw new Error('Evento inválido');
     }
 
-    return {
-      ...rawEvent,
-      date: formatDate(rawEvent.date),
-    };
-  }
+    return event;
+  },
 };
-
-function formatDate(date: string) {
-  return date;
-}

@@ -7,6 +7,7 @@ import {
   TouchableWithoutFeedback,
   Alert,
 } from "react-native";
+import { useToastFeedback, EToastVariants } from '~/components/Toast/ToastFeedback';
 
 import {
   container,
@@ -22,11 +23,10 @@ import {
 } from "~/styles/HomeStyles";
 
 import EventCard from "../components/Card/EventCard";
-import TitleComponent from "../components/Title/TitleComponent";
 import SearchBar from "../components/Search/SearchBar";
-import FloatingButton from "../components/Buttons/FloatingButton";
 import { useHomeScreen } from "../hooks/Screen/useHomeScreen";
 import { TEvent } from "~/types/TEvent";
+import TitleWithActionButton from "~/components/Title/TitleWithAction";
 
 export default function HomeScreen() {
   const {
@@ -47,34 +47,30 @@ export default function HomeScreen() {
   const isHorizontal = filteredEvents.length <= 5;
   const layoutStyle = isHorizontal ? horizontal : grid;
 
+  const toast = useToastFeedback();
+
   const handleDelete = (event: TEvent) => {
-    Alert.alert(
-      "Confirmar exclusão",
-      "Deseja realmente excluir este evento?",
-      [
-        { text: "Cancelar", style: "cancel" },
-        {
-          text: "OK",
-          onPress: () => {
-            deleteEvent(event);
-          },
-        },
-      ]
-    );
+    deleteEvent(event);
+  
+    toast.showToast({
+      message: `Evento "${event.title}" removido com sucesso!`,
+      variant: EToastVariants.SUCCESS,
+    });
   };
+  
 
   return (
     <View style={container}>
-        <TitleComponent title="Meus eventos" />
-        <FloatingButton color="#38a37f" onPress={toggleOptions} />
-
-
+        <TitleWithActionButton title="Meus eventos" onPress={toggleOptions} color="#38a37f" />
       {showOptions && (
         <View style={optionsContainer}>
           <OptionButton label="Novo evento" onPress={navigateToNewEvent} />
           <OptionButton
             label={isEditing ? "Finalizar edição" : "Editar eventos"}
-            onPress={() => setIsEditing((prev) => !prev)}
+            onPress={() => {
+              setIsEditing((prev) => !prev);
+              closeOptions();
+            }}
           />
         </View>
       )}

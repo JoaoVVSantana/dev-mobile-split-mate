@@ -1,26 +1,48 @@
-import { useState } from 'react';
-import { Alert } from 'react-native';
-import { TFriend } from '~/types/TFriend';
+import { useEffect, useState } from "react";
+import { useCommunityStore } from "~/store/useCommunityStore";
+import {
+  EToastVariants,
+  useToastFeedback,
+} from "~/components/Toast/ToastFeedback";
+import { TFriend } from "~/types/TFriend";
 
 export function useCommunityScreen() {
-  const [friendName, setFriendName] = useState('');
-  const [friendEmail, setFriendEmail] = useState('');
-  const [friendsList, setFriendsList] = useState<TFriend[]>([]);
+  const [friendName, setFriendName] = useState("");
+  const [friendEmail, setFriendEmail] = useState("");
+  const friendsList = useCommunityStore((state) => state.friends);
+  const addFriend = useCommunityStore((state) => state.addFriend);
+  const toastFeedback = useToastFeedback();
+
+  const loadFriends = useCommunityStore((state) => state.loadFriends);
+
+  useEffect(() => {
+    loadFriends();
+  }, []);
 
   const handleConfirm = () => {
     if (!friendName.trim()) {
-      Alert.alert('Nome obrigatório', 'Por favor, preencha o nome do amigo.');
+      toastFeedback.showToast({
+        message: "Por favor, preencha o nome do amigo.",
+        variant: EToastVariants.ERROR,
+      });
       return;
     }
 
-    const newFriend: TFriend = { name: friendName.trim(), email: friendEmail.trim() || '' };
+    const newFriend: TFriend = {
+      name: friendName.trim(),
+      email: friendEmail.trim() || "",
+      debts: [],
+    };
 
-    setFriendsList((prev) => [...prev, newFriend]);
+    addFriend(newFriend);
 
-    Alert.alert('Amigo adicionado', `${friendName} foi adicionado com sucesso!`);
+    toastFeedback.showToast({
+      message: `${friendName} foi adicionado com sucesso!`,
+      variant: EToastVariants.SUCCESS,
+    });
 
-    setFriendName('');
-    setFriendEmail('');
+    setFriendName("");
+    setFriendEmail("");
   };
 
   return {

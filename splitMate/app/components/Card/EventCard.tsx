@@ -1,27 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from "react";
 import {
   TouchableOpacity,
   Text,
   StyleSheet,
-  View,
   Animated,
   Easing,
-} from 'react-native';
+  View,
+} from "react-native";
 
 interface EventCardProps {
   eventName: string;
   color: string;
-  onPress?: () => void;
   isEditing?: boolean;
+  onPress?: () => void;
   onDelete?: () => void;
+  drag?: () => void;
+  isActive?: boolean;
 }
 
 const EventCard: React.FC<EventCardProps> = ({
   eventName,
   color,
-  onPress,
   isEditing = false,
+  onPress,
   onDelete,
+  drag,
+  isActive,
 }) => {
   const shakeAnim = useRef(new Animated.Value(0)).current;
 
@@ -54,61 +58,74 @@ const EventCard: React.FC<EventCardProps> = ({
       {
         rotate: shakeAnim.interpolate({
           inputRange: [-1, 1],
-          outputRange: ['-1deg', '1deg'],
+          outputRange: ["-1deg", "1deg"],
         }),
       },
     ],
   };
 
   return (
-    <Animated.View style={[styles.eventButton, { backgroundColor: color }, isEditing && shakeStyle]}>
-      <TouchableOpacity
-        onPress={onPress}
-        disabled={isEditing}
-        style={StyleSheet.absoluteFill}
-      />
-      <Text style={styles.eventText}>{eventName}</Text>
+    <TouchableOpacity
+      activeOpacity={0.9}
+      onPress={onPress}
+      onLongPress={drag}
+      delayLongPress={200}
+      disabled={isEditing}
+    >
+      <Animated.View
+        style={[
+          styles.eventButton,
+          { backgroundColor: color },
+          isEditing && shakeStyle,
+          isActive && styles.activeCard,
+        ]}
+      >
+        <Text style={styles.eventText}>{eventName}</Text>
 
-      {isEditing && (
-        <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
-          <Text style={styles.deleteText}>X</Text>
-        </TouchableOpacity>
-      )}
-    </Animated.View>
+        {isEditing && (
+          <TouchableOpacity style={styles.deleteButton} onPress={onDelete}>
+            <Text style={styles.deleteText}>X</Text>
+          </TouchableOpacity>
+        )}
+      </Animated.View>
+    </TouchableOpacity>
   );
 };
 
 const styles = StyleSheet.create({
   eventButton: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingVertical: 15,
     paddingHorizontal: 10,
     borderRadius: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     marginBottom: 10,
-    width: '100%',
+    width: "100%",
     height: 80,
-    position: 'relative',
+    position: "relative",
+  },
+  activeCard: {
+    opacity: 0.85,
   },
   eventText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    textAlign: 'center',
+    textAlign: "center",
   },
   deleteButton: {
-    position: 'absolute',
+    position: "absolute",
     right: 10,
-    top: '50%',
+    top: "50%",
     transform: [{ translateY: -12 }],
-    backgroundColor: 'red',
+    backgroundColor: "red",
     padding: 5,
     borderRadius: 12,
     zIndex: 10,
   },
   deleteText: {
-    color: 'white',
-    fontWeight: 'bold',
+    color: "white",
+    fontWeight: "bold",
   },
 });
 
