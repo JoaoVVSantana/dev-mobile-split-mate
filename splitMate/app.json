@@ -15,7 +15,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./app/assets/images/logo.png",
         "backgroundColor": "#5a139a"
-      }
+      },
+      "package": "com.joaovvsantana.splitmate"
     },
     "web": {
       "bundler": "metro",
@@ -43,9 +44,15 @@
         "origin": false
       },
       "eas": {
-        "projectId": "9a84c14a-792e-4cfd-bf13-2333a158ca85"
+        "projectId": "f1882457-9f8c-4dca-9ee7-4856e28f56be"
       }
     },
-    "owner": "joaovvsantana"
+    "owner": "joaovvsantana",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/f1882457-9f8c-4dca-9ee7-4856e28f56be"
+    }
   }
 }
