@@ -6,18 +6,28 @@ import { FriendService } from '~/core/Friend/FriendService';
 
 interface CommunityStore {
   friends: TFriend[];
+  user: TFriend | null;
   addFriend: (friend: TFriend) => void;
   removeFriend: (name: string) => void;
+  setUser: (friend: TFriend) => void;
   updateDebtsFromEvent: (event: TEvent) => void;
-  loadFriends: () => Promise<void>; 
+  loadFriends: () => Promise<void>;
 }
 
 export const useCommunityStore = create<CommunityStore>((set, get) => ({
   friends: [],
+  user: null,
 
   addFriend: (friend) => {
     set((state) => ({
       friends: [...state.friends, { ...friend, debts: [] }],
+    }));
+  },
+
+  setUser: (user) => {
+    set((state) => ({
+      user: { ...user, debts: [] },
+      friends: [...state.friends, { ...user, debts: [] }],
     }));
   },
 

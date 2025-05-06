@@ -1,10 +1,10 @@
 import { TFriend } from "~/types/TFriend";
 
 const mockFriends: TFriend[] = [
-  { name: "João", email: "joao@email.com", debts: [] },
-  { name: "Ana", email: "ana@email.com", debts: [] },
-  { name: "Leticia", email: "Leticia@email.com", debts: [] },
-  { name: "Murilo", email: "murilo@email.com", debts: [] },
+  { id:'1', name: "João", email: "joao@email.com", debts: [] },
+  { id:'2',  name: "Ana", email: "ana@email.com", debts: [] },
+  { id:'3',  name: "Leticia", email: "Leticia@email.com", debts: [] },
+  { id:'4',  name: "Murilo", email: "murilo@email.com", debts: [] },
 ];
 
 export const FriendService = {

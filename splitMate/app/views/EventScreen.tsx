@@ -13,6 +13,7 @@ export default function EventScreen() {
     date,
     expenses,
     handleAddExpense,
+    navigateToExpense
   } = useEventScreen();
 
   return (
@@ -23,15 +24,12 @@ export default function EventScreen() {
       <AddExpenseButton title="Adicionar despesa" onPress={handleAddExpense} />
 
       <ScrollView contentContainerStyle={cardsContainer}>
-        {expenses.map((item, index) => (
+        {expenses.map((item) => (
           <ExpenseCard
-          key={index}
-          name={item.name}
-          value={item.value}
-          isPayed={item.isPayed}
-          participants={item.participants}
-        />
-        
+            key={item.id}
+            expense={item}
+            onPress={() => navigateToExpense(item)}
+          />
         ))}
       </ScrollView>
     </View>

@@ -7,12 +7,16 @@ export function useCreateNewExpense() {
   const { currentEvent, setCurrentEvent, setEvents, events } = useCurrentEventStore();
 
   const createExpense = ({
+    id,
     name,
     value,
+    owner,
     participants,
   }: {
+    id: string;
     name: string;
     value: string;
+    owner: TFriend;
     participants: string[];
   }) => {
     if (!name || !value || participants.length === 0) {
@@ -27,9 +31,11 @@ export function useCreateNewExpense() {
     );
 
     const newExpense: TExpense = {
+      id,
       name,
       value: parseFloat(value.replace(',', '.')),
       isPayed: false,
+      owner,
       participants: expenseParticipants as IExpenseParticipant[],
     };
 

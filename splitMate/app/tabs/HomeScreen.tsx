@@ -4,8 +4,7 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback,
-  Alert,
+  TouchableWithoutFeedback
 } from "react-native";
 import { useToastFeedback, EToastVariants } from '~/components/Toast/ToastFeedback';
 

@@ -20,18 +20,28 @@ export const EventService = {
         participants,
         expenses: [
           {
+            id:'1',
             name: 'Beats',
             value: 75.90,
             isPayed: false,
+            owner:{
+              id:'1',
+              name:'João '
+            },
             participants: participants.map((p, i) => ({
               ...p,
               hasPaid: i % 2 === 0,
             })) as IExpenseParticipant[],
           },
           {
+            id:'2',
             name: 'Uber',
             value: 43.80,
             isPayed: true,
+            owner:{
+              id:'2',
+              name:'Ana '
+            },
             participants: participants.map((p, i) => ({
               ...p,
               hasPaid: i % 2 === 0,
@@ -46,17 +56,27 @@ export const EventService = {
         participants,
         expenses: [
           {
+            id:'3',
             name: 'Carvão',
             value: 20.00,
             isPayed: false,
+            owner:{
+              id:'2',
+              name:'Ana '
+            },
             participants: participants.map(p => ({
               ...p,
               hasPaid: false,
             })) as IExpenseParticipant[],
           },
           {
+            id:'3',
             name: 'Carne',
             value: 120.00,
+            owner:{
+              id:'4',
+              name:'Murilo'
+            },
             isPayed: participants.every((_, i) => i !== 2),
             participants: participants.map((p, i) => ({
               ...p,

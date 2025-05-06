@@ -29,6 +29,7 @@ export function useCommunityScreen() {
     }
 
     const newFriend: TFriend = {
+      id:'11',
       name: friendName.trim(),
       email: friendEmail.trim() || "",
       debts: [],

@@ -1,44 +1,45 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { TFriend } from '~/types/TFriend';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { TExpense } from '~/types/TExpense';
 import { Ionicons } from '@expo/vector-icons';
 
+
 interface ExpenseCardProps {
-  name: string;
-  value: number;
-  isPayed: boolean;
-  participants: TFriend[];
+  expense: TExpense;
+  onPress: () => void;
+
 }
 
-export default function ExpenseCard({ name, value, isPayed, participants }: ExpenseCardProps) {
+export default function ExpenseCard({ expense, onPress }: ExpenseCardProps) {
+
   return (
-    <View style={styles.card}>
+    <TouchableOpacity style={styles.card} onPress={onPress}>
       <View style={styles.header}>
-        <Text style={styles.title}>{name}</Text>
-        <Text style={styles.amount}>R$ {value.toFixed(2)}</Text>
+        <Text style={styles.title}>{expense.name}</Text>
+        <Text style={styles.amount}>R$ {expense.value.toFixed(2)}</Text>
       </View>
 
       <View style={styles.statusRow}>
         <Ionicons
-          name={isPayed ? 'checkmark-circle' : 'close-circle'}
+          name={expense.isPayed ? 'checkmark-circle' : 'close-circle'}
           size={16}
-          color={isPayed ? '#38a37f' : '#d9534f'}
+          color={expense.isPayed ? '#38a37f' : '#d9534f'}
           style={{ marginRight: 4 }}
         />
-        <Text style={[styles.statusText, isPayed ? styles.paid : styles.unpaid]}>
-          {isPayed ? 'Paga' : 'Pendente'}
+        <Text style={[styles.statusText, expense.isPayed ? styles.paid : styles.unpaid]}>
+          {expense.isPayed ? 'Paga' : 'Pendente'}
         </Text>
       </View>
 
       <View style={styles.participantsContainer}>
-        {participants.map((p, idx) => {
+        {expense.participants.map((p, idx) => {
           const hasPaid = (p as any).hasPaid;
           return (
             <View key={idx} style={styles.participantRow}>
               <Ionicons
                 name={hasPaid ? 'checkmark' : 'close'}
                 size={14}
-                color={hasPaid ? '#38a37f': '#d9534f'}
+                color={hasPaid ? '#38a37f' : '#d9534f'}
                 style={{ marginRight: 4 }}
               />
               <Text style={[styles.participantName, hasPaid ? styles.paid : styles.unpaid]}>
@@ -48,10 +49,9 @@ export default function ExpenseCard({ name, value, isPayed, participants }: Expe
           );
         })}
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
-
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#5a139a',
