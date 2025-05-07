@@ -51,6 +51,7 @@ export default function NewEventScreen() {
             labelColor="#ffffff"
             placeholderTextColor="#5a139a"
             backgroundColor="#ffffff"
+            keyboardType="numeric"
             formatType={EFormatTypes.Date}
           />
 

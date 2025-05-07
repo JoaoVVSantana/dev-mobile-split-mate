@@ -44,7 +44,7 @@ const TextInputBase = ({
         style={[
           {
             backgroundColor,
-            color: 'white',
+            color: '#5a139a',
             borderColor: 'white',
             borderWidth: 1,
             borderRadius: 25,
