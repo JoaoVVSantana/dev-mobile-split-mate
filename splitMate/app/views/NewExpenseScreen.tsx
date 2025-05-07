@@ -30,7 +30,7 @@ export default function NewExpenseScreen() {
   return (
     <View style={container}>
       <BackArrowButton />
-      <TitleComponent title="Nova Despesa" color="#38a37f" />
+      <TitleComponent title="Nova Despesa" color="#fff" />
 
       <ScrollView
         contentContainerStyle={scrollContainer}
@@ -42,9 +42,9 @@ export default function NewExpenseScreen() {
             value={name}
             onChangeText={setName}
             placeholder="Ex: Comida, Uber..."
-            labelColor="#38a37f"
+            labelColor="#fff"
             placeholderTextColor="#a3a3a3"
-            backgroundColor="#5a139a"
+            backgroundColor="#fff"
           />
 
           <TextInputBase
@@ -53,9 +53,9 @@ export default function NewExpenseScreen() {
             onChangeText={handleValueChange}
             keyboardType="numeric"
             placeholder="R$ 0,00"
-            labelColor="#38a37f"
+            labelColor="#fff"
             placeholderTextColor="#a3a3a3"
-            backgroundColor="#5a139a"
+            backgroundColor="#fff"
             formatType={EFormatTypes.Currency}
           />
 
@@ -63,14 +63,17 @@ export default function NewExpenseScreen() {
             participants={participants}
             selectedParticipants={selectedParticipants}
             onSelectParticipant={handleParticipantSelection}
+            label="Quem fez parte da despesa?"
+            labelColor="#fff"
+            containerStyle={{ width: 300 }}
           />
         </NewEventForm>
-        <View style={createButtonContainer}>
+      </ScrollView>
+      <View style={createButtonContainer}>
           <CreateButton
             onPress={handleCreate}
           />
         </View>
-      </ScrollView>
     </View>
   );
 }
