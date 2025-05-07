@@ -4,7 +4,8 @@ import {
   ScrollView,
   Text,
   TouchableOpacity,
-  TouchableWithoutFeedback
+  TouchableWithoutFeedback,
+  Dimensions
 } from "react-native";
 import { useToastFeedback, EToastVariants } from '~/components/Toast/ToastFeedback';
 
@@ -55,7 +56,9 @@ export default function HomeScreen() {
       variant: EToastVariants.SUCCESS,
     });
   };
-  
+
+  const screenHeight = Dimensions.get("window").height;
+  const maxScrollViewHeight = screenHeight * 0.7; 
 
   return (
     <View style={container}>
@@ -75,7 +78,7 @@ export default function HomeScreen() {
 
       <SearchBar placeholder="Procurar eventos" onChangeText={setSearchQuery} />
 
-      <ScrollView>
+      <ScrollView style={{ maxHeight: maxScrollViewHeight }}>
         <View style={[eventsContainer, layoutStyle]}>
           {filteredEvents.map((event, index) => (
             <View

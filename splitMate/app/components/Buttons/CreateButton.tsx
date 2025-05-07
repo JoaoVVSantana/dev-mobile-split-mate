@@ -1,5 +1,12 @@
-import React from 'react';
-import { TouchableOpacity, Text, StyleSheet, StyleProp, ViewStyle, TextStyle } from 'react-native';
+import React from "react";
+import {
+  TouchableOpacity,
+  Text,
+  StyleSheet,
+  StyleProp,
+  ViewStyle,
+  TextStyle,
+} from "react-native";
 
 interface CreateButtonProps {
   onPress: () => void;
@@ -8,9 +15,20 @@ interface CreateButtonProps {
   label?: string;
 }
 
-const CreateButton: React.FC<CreateButtonProps> = ({ onPress, backgroundColor = '#5a139a', textColor = 'white', label = 'Criar', }) => {
-  const buttonStyle: StyleProp<ViewStyle> = [styles.button, { backgroundColor }];
-  const textStyle: StyleProp<TextStyle> = [styles.buttonText, { color: textColor }];
+const CreateButton: React.FC<CreateButtonProps> = ({
+  onPress,
+  backgroundColor = "#38a37f",
+  textColor = "white",
+  label = "Criar",
+}) => {
+  const buttonStyle: StyleProp<ViewStyle> = [
+    styles.button,
+    { backgroundColor },
+  ];
+  const textStyle: StyleProp<TextStyle> = [
+    styles.buttonText,
+    { color: textColor },
+  ];
 
   return (
     <TouchableOpacity style={buttonStyle} onPress={onPress}>
@@ -21,15 +39,26 @@ const CreateButton: React.FC<CreateButtonProps> = ({ onPress, backgroundColor = 
 
 const styles = StyleSheet.create({
   button: {
-    paddingVertical: 15,
+    height: 54,
+    backgroundColor: "#38a37f",
     borderRadius: 100,
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: '100%',
+    paddingHorizontal: 24,
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+    marginBottom: 20,
+    minWidth: 200,
   },
   buttonText: {
+    color: "white",
     fontSize: 18,
-    fontWeight: 'bold',
+    fontWeight: "600",
+    letterSpacing: 0.5,
   },
 });
 

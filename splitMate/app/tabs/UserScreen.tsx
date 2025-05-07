@@ -12,7 +12,7 @@ export default function UserInformationScreen() {
 
   return (
     <View style={styles.container}>
-      <TitleComponent title="Minha Conta" color="#5a139a" />
+      <TitleComponent title="Minha Conta" color="#38a37f" />
 
       <View style={styles.userInfoContainer}>
         <Image
@@ -78,6 +78,7 @@ const styles = StyleSheet.create({
     color: 'white',
     fontWeight: 'bold',
     fontSize: 14,
+    textAlign: 'center',
   },
   detailsContainer: {
     marginTop: 40,

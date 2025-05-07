@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   scrollView: {
-    maxHeight: 200,
+    maxHeight: 280,
   },
   checkboxRow: {
     flexDirection: 'row',
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   },
   participantText: {
     fontSize: 16,
-    color: '#38a37f',
+    color: '#ffffff',
   },
   participantSelectedText: {
     color: '#38a37f',

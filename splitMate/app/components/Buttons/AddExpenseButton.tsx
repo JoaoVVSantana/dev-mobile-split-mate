@@ -12,7 +12,7 @@ const AddExpenseButton = ({ title, onPress }: { title: string; onPress: () => vo
 const styles = StyleSheet.create({
   button: {
     height: 54,
-    backgroundColor: '#5a139a',
+    backgroundColor: '#38a37f',
     borderRadius: 100,
     paddingHorizontal: 24,
     justifyContent: 'center',

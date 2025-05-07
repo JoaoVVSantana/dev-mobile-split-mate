@@ -21,7 +21,7 @@ export default function CommunityScreen() {
   
   return (
     <View style={container}>
-      <TitleComponent title="Adicionar amigo" color="#5a139a" />
+      <TitleComponent title="Adicionar amigo" color="#38a37f" />
 
       <ScrollView contentContainerStyle={scrollContainer} showsVerticalScrollIndicator={false}>
         <NewEventForm>
@@ -36,7 +36,7 @@ export default function CommunityScreen() {
           />
 
           <TextInputBase
-            label="Email (opcional)"
+            label="E-mail (opcional)"
             value={friendEmail}
             onChangeText={setFriendEmail}
             placeholder="exemplo@email.com"
@@ -48,9 +48,9 @@ export default function CommunityScreen() {
 
         <NewEventForm>
         <ScrollView
-          style={{ maxHeight: 200 }}
+          style={{ maxHeight: 310, paddingRight: 10 }}
           nestedScrollEnabled={true}
-          showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={true}
         >
           {friendsList.map((friend, index) => (
             <FriendItem key={index} name={friend.name} email={friend.email} />

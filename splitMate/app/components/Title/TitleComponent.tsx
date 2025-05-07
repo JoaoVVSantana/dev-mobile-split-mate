@@ -19,7 +19,7 @@ const TitleComponent = ({ title, color = '#38a37f', showUnderline = true }: Titl
 const styles = StyleSheet.create({
   titleContainer: {
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 25,
   },
   header: {
     fontSize: 28,

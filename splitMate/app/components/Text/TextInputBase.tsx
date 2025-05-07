@@ -67,7 +67,8 @@ const TextInputBase = ({
 const styles = StyleSheet.create({
   label: {
     fontSize: 18,
-    marginBottom: 2,
+    marginBottom: 8,
+    paddingLeft: 15,
   },
 });
 

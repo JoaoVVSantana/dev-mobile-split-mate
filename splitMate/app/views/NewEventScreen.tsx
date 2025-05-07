@@ -9,7 +9,7 @@ import { EFormatTypes } from "~/types/EFormatTypes";
 import NewEventForm from "~/components/Form/NewEventForm";
 import ParticipantsCheckboxes from "~/components/Checkbox/ParticipantsCheckbox";
 
-import { container, scrollContainer } from "~/styles/NewEventStyles";
+import { container, scrollContainer, buttonContainer } from "~/styles/NewEventStyles";
 
 export default function NewEventScreen() {
   const {
@@ -22,7 +22,7 @@ export default function NewEventScreen() {
     handleToggle,
     handleCreateEvent,
   } = useNewEventScreen();
-  console.log(participants);
+
   return (
     <View style={container}>
       <BackArrowButton />
@@ -39,8 +39,8 @@ export default function NewEventScreen() {
             onChangeText={setEventName}
             placeholder="Nome do evento"
             labelColor="#ffffff"
-            placeholderTextColor="#cccccc"
-            backgroundColor="#ffffff10"
+            placeholderTextColor="#5a139a"
+            backgroundColor="#ffffff"
           />
 
           <TextInputBase
@@ -49,8 +49,8 @@ export default function NewEventScreen() {
             onChangeText={setEventDate}
             placeholder="DD/MM/AAAA"
             labelColor="#ffffff"
-            placeholderTextColor="#cccccc"
-            backgroundColor="#ffffff10"
+            placeholderTextColor="#5a139a"
+            backgroundColor="#ffffff"
             formatType={EFormatTypes.Date}
           />
 
@@ -60,19 +60,18 @@ export default function NewEventScreen() {
             onSelectParticipant={handleToggle}
             label="Quem vai participar?"
             labelColor="#fff"
-            containerStyle={{ marginTop: 30 }}
-            checkboxStyle={{ borderColor: "white" }}
-          />
-
-          <CreateButton
-            onPress={handleCreateEvent}
-            backgroundColor="#38a37f"
-            textColor="#ffffff"
+            containerStyle={{ width: 300 }}
           />
         </NewEventForm>
       </ScrollView>
 
-     
+      <View style={buttonContainer}>
+        <CreateButton
+          onPress={handleCreateEvent}
+          backgroundColor="#38a37f"
+          textColor="#ffffff"
+        />
+      </View>
     </View>
   );
 }

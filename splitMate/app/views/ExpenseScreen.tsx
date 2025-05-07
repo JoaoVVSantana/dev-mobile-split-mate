@@ -10,6 +10,7 @@ import { useExpenseScreen } from "~/hooks/Screen/useExpenseScreen";
 import BackArrowButton from "~/components/Buttons/BackArrowButton";
 import TitleComponent from "~/components/Title/TitleComponent";
 import { useCommunityStore } from "~/store/useCommunityStore";
+import PayButton from "~/components/Buttons/PayButton";
 
 export default function ExpenseScreen() {
   const { name, value, owner, participants, handlePay } = useExpenseScreen();
@@ -22,6 +23,7 @@ export default function ExpenseScreen() {
     <View style={styles.container}>
       <BackArrowButton />
       <TitleComponent title={name} color="#ffffff" />
+
       <ScrollView contentContainerStyle={styles.scrollContent}>
         <Text style={styles.label}>Quem pagou:</Text>
         <Text style={styles.owner}>{owner?.name}</Text>
@@ -30,26 +32,26 @@ export default function ExpenseScreen() {
         <Text style={styles.value}>R$ {value.toFixed(2)}</Text>
 
         <Text style={styles.label}>Cada um deve:</Text>
-        {participants
-          .filter((participant) => participant.id !== owner?.id)
-          .map((participant, index) => (
-            <View key={index} style={styles.participantRow}>
-              <Text style={styles.participantName}>{participant.name}</Text>
-              <Text style={styles.debtValue}>
-                R$ {individualShare.toFixed(2)}
-              </Text>
-            </View>
-          ))}
 
-        {user?.id !== owner?.id && (
-          <TouchableOpacity
-            style={styles.payButton}
-            onPress={() => handlePay()}
-          >
-            <Text style={styles.payButtonText}>Pagar pra {owner?.name}</Text>
-          </TouchableOpacity>
-        )}
+        <ScrollView style={styles.participantsScroll}>
+          {participants
+            .filter((participant) => participant.id !== owner?.id)
+            .map((participant, index) => (
+              <View key={index} style={styles.participantRow}>
+                <Text style={styles.participantName}>{participant.name}</Text>
+                <Text style={styles.debtValue}>
+                  R$ {individualShare.toFixed(2)}
+                </Text>
+              </View>
+            ))}
+        </ScrollView>
       </ScrollView>
+
+      {user?.id !== owner?.id && (
+        <View style={styles.payButtonContainer}>
+          <PayButton onPress={handlePay} ownerName={owner?.name || "o dono"} />
+        </View>
+      )}
     </View>
   );
 }
@@ -63,6 +65,11 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingBottom: 80,
+  },
+  participantsScroll: {
+    maxHeight: 300, 
+    marginTop: 10,
+    padding: 10,
   },
   label: {
     color: "#ccc",
@@ -98,16 +105,11 @@ const styles = StyleSheet.create({
     color: "#ffd5d5",
     fontSize: 16,
   },
-  payButton: {
-    marginTop: 32,
-    backgroundColor: "#38a37f",
-    paddingVertical: 12,
-    borderRadius: 12,
-    alignItems: "center",
-  },
-  payButtonText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "700",
+  payButtonContainer: {
+    position: "absolute",
+    bottom: 118, 
+    left: 20,
+    right: 20,
+    zIndex: 1,
   },
 });

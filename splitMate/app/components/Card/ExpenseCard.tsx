@@ -1,5 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { TExpense } from "~/types/TExpense";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -27,40 +33,44 @@ export default function ExpenseCard({ expense, onPress }: ExpenseCardProps) {
           style={[
             styles.statusText,
             expense.isPayed ? styles.paid : styles.unpaid,
+            
           ]}
         >
           {expense.isPayed ? "Paga" : "Pendente"}
         </Text>
       </View>
 
-      <View style={styles.participantsContainer}>
-        {expense.participants
-          .filter((p) => p.id !== expense.owner?.id)
-          .map((p, idx) => {
-            const hasPaid = (p as any).hasPaid;
-            return (
-              <View key={idx} style={styles.participantRow}>
-                <Ionicons
-                  name={hasPaid ? "checkmark" : "close"}
-                  size={14}
-                  color={hasPaid ? "#38a37f" : "#d9534f"}
-                  style={{ marginRight: 4 }}
-                />
-                <Text
-                  style={[
-                    styles.participantName,
-                    hasPaid ? styles.paid : styles.unpaid,
-                  ]}
-                >
-                  {p.name}
-                </Text>
-              </View>
-            );
-          })}
-      </View>
+      <ScrollView style={styles.participantsScroll}>
+        <View style={styles.participantsContainer}>
+          {expense.participants
+            .filter((p) => p.id !== expense.owner?.id)
+            .map((p, idx) => {
+              const hasPaid = (p as any).hasPaid;
+              return (
+                <View key={idx} style={styles.participantRow}>
+                  <Ionicons
+                    name={hasPaid ? "checkmark" : "close"}
+                    size={14}
+                    color={hasPaid ? "#38a37f" : "#d9534f"}
+                    style={{ marginRight: 4 }}
+                  />
+                  <Text
+                    style={[
+                      styles.participantName,
+                      hasPaid ? styles.paid : styles.unpaid,
+                    ]}
+                  >
+                    {p.name}
+                  </Text>
+                </View>
+              );
+            })}
+        </View>
+      </ScrollView>
     </TouchableOpacity>
   );
 }
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: "#5a139a",
@@ -69,6 +79,7 @@ const styles = StyleSheet.create({
     padding: 16,
     marginBottom: 16,
     alignItems: "center",
+    maxHeight: 250, 
   },
   header: {
     marginBottom: 8,
@@ -89,6 +100,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginTop: 6,
+    paddingBottom: 8,
   },
   statusText: {
     fontSize: 13,
@@ -100,8 +112,12 @@ const styles = StyleSheet.create({
   unpaid: {
     color: "#ffd5d5",
   },
+  participantsScroll: {
+    maxHeight: 100, 
+    width: "100%",
+    paddingTop: 5,
+  },
   participantsContainer: {
-    marginTop: 12,
     alignItems: "flex-start",
     width: "100%",
     paddingHorizontal: 8,
