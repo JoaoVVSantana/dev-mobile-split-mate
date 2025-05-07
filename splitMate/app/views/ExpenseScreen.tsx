@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   label: {
-    color: "#ccc",
+    color: "#a3a3a3",
     fontSize: 16,
     fontWeight: "600",
     marginTop: 24,

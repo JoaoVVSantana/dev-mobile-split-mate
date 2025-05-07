@@ -1,12 +1,16 @@
-import React from 'react';
-import { View, ScrollView } from 'react-native';
-import TitleComponent from '../components/Title/TitleComponent';
-import TextInputBase from '../components/Text/TextInputBase';
-import CreateButton from '../components/Buttons/CreateButton';
-import { useCommunityScreen } from '~/hooks/Screen/useCommunityScreen';
-import { container, scrollContainer, buttonContainer } from '~/styles/CommunityStyles';
-import NewEventForm from '~/components/Form/NewEventForm';
-import FriendItem from '~/components/Community/FriendItem';
+import React from "react";
+import { View, ScrollView } from "react-native";
+import TitleComponent from "../components/Title/TitleComponent";
+import TextInputBase from "../components/Text/TextInputBase";
+import CreateButton from "../components/Buttons/CreateButton";
+import { useCommunityScreen } from "~/hooks/Screen/useCommunityScreen";
+import {
+  container,
+  scrollContainer,
+  buttonContainer,
+} from "~/styles/CommunityStyles";
+import NewEventForm from "~/components/Form/NewEventForm";
+import FriendItem from "~/components/Community/FriendItem";
 
 export default function CommunityScreen() {
   const {
@@ -18,12 +22,14 @@ export default function CommunityScreen() {
     handleConfirm,
   } = useCommunityScreen();
 
-  
   return (
     <View style={container}>
       <TitleComponent title="Adicionar amigo" color="#38a37f" />
 
-      <ScrollView contentContainerStyle={scrollContainer} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
         <NewEventForm>
           <TextInputBase
             label="Nome do amigo"
@@ -31,7 +37,7 @@ export default function CommunityScreen() {
             onChangeText={setFriendName}
             placeholder="Ex: João, Maria..."
             labelColor="#5a139a"
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
           />
 
@@ -41,27 +47,26 @@ export default function CommunityScreen() {
             onChangeText={setFriendEmail}
             placeholder="exemplo@email.com"
             labelColor="#5a139a"
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
           />
         </NewEventForm>
 
         <NewEventForm>
-        <ScrollView
-          style={{ maxHeight: 310, paddingRight: 10 }}
-          nestedScrollEnabled={true}
-          showsVerticalScrollIndicator={true}
-        >
-          {friendsList.map((friend, index) => (
-            <FriendItem key={index} name={friend.name} email={friend.email} />
-          ))}
-        </ScrollView>
+          <ScrollView
+            style={{ maxHeight: 310, paddingRight: 10 }}
+            nestedScrollEnabled={true}
+            showsVerticalScrollIndicator={true}
+          >
+            {friendsList.map((friend, index) => (
+              <FriendItem key={index} name={friend.name} email={friend.email} />
+            ))}
+          </ScrollView>
         </NewEventForm>
       </ScrollView>
-        
-      <View style={buttonContainer}>
-      <CreateButton onPress={handleConfirm} label="Adicionar amigo" />
 
+      <View style={buttonContainer}>
+        <CreateButton onPress={handleConfirm} label="Adicionar amigo" />
       </View>
     </View>
   );

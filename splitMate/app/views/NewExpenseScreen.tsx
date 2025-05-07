@@ -43,7 +43,7 @@ export default function NewExpenseScreen() {
             onChangeText={setName}
             placeholder="Ex: Comida, Uber..."
             labelColor="#38a37f"
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
           />
 
@@ -54,7 +54,7 @@ export default function NewExpenseScreen() {
             keyboardType="numeric"
             placeholder="R$ 0,00"
             labelColor="#38a37f"
-            placeholderTextColor="#ccc"
+            placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
             formatType={EFormatTypes.Currency}
           />
