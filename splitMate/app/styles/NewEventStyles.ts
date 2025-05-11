@@ -21,7 +21,7 @@ const NewEventStyles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 118, 
+    bottom: 15, 
     left: 20,
     right: 20,
     zIndex: 1,

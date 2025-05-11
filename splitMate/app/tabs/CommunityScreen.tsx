@@ -26,10 +26,6 @@ export default function CommunityScreen() {
     <View style={container}>
       <TitleComponent title="Adicionar amigo" color="#38a37f" />
 
-      <ScrollView
-        contentContainerStyle={scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
         <NewEventForm>
           <TextInputBase
             label="Nome do amigo"
@@ -39,6 +35,7 @@ export default function CommunityScreen() {
             labelColor="#5a139a"
             placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
+            style={{ color: "#ffffff" }}
           />
 
           <TextInputBase
@@ -49,12 +46,13 @@ export default function CommunityScreen() {
             labelColor="#5a139a"
             placeholderTextColor="#a3a3a3"
             backgroundColor="#5a139a"
+            style={{ color: "#ffffff" }} 
           />
         </NewEventForm>
 
         <NewEventForm>
           <ScrollView
-            style={{ maxHeight: 310, paddingRight: 10 }}
+            style={{ maxHeight: 200, paddingRight: 10 }}
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={true}
           >
@@ -63,7 +61,6 @@ export default function CommunityScreen() {
             ))}
           </ScrollView>
         </NewEventForm>
-      </ScrollView>
 
       <View style={buttonContainer}>
         <CreateButton onPress={handleConfirm} label="Adicionar amigo" />

@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   scrollView: {
-    maxHeight: 280,
+    maxHeight: 200,
   },
   checkboxRow: {
     flexDirection: 'row',

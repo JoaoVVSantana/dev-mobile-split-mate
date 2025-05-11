@@ -9,7 +9,11 @@ import { EFormatTypes } from "~/types/EFormatTypes";
 import NewEventForm from "~/components/Form/NewEventForm";
 import ParticipantsCheckboxes from "~/components/Checkbox/ParticipantsCheckbox";
 
-import { container, scrollContainer, buttonContainer } from "~/styles/NewEventStyles";
+import {
+  container,
+  scrollContainer,
+  buttonContainer,
+} from "~/styles/NewEventStyles";
 
 export default function NewEventScreen() {
   const {
@@ -28,43 +32,38 @@ export default function NewEventScreen() {
       <BackArrowButton />
       <TitleComponent title="Novo evento" color="#ffffff" />
 
-      <ScrollView
-        contentContainerStyle={scrollContainer}
-        showsVerticalScrollIndicator={false}
-      >
-        <NewEventForm>
-          <TextInputBase
-            label="Qual o nome do evento?"
-            value={eventName}
-            onChangeText={setEventName}
-            placeholder="Nome do evento"
-            labelColor="#ffffff"
-            placeholderTextColor="#5a139a"
-            backgroundColor="#ffffff"
-          />
+      <NewEventForm>
+        <TextInputBase
+          label="Qual o nome do evento?"
+          value={eventName}
+          onChangeText={setEventName}
+          placeholder="Nome do evento"
+          labelColor="#ffffff"
+          placeholderTextColor="#5a139a"
+          backgroundColor="#ffffff"
+        />
 
-          <TextInputBase
-            label="Digite a data do evento"
-            value={eventDate}
-            onChangeText={setEventDate}
-            placeholder="DD/MM/AAAA"
-            labelColor="#ffffff"
-            placeholderTextColor="#5a139a"
-            backgroundColor="#ffffff"
-            keyboardType="numeric"
-            formatType={EFormatTypes.Date}
-          />
+        <TextInputBase
+          label="Digite a data do evento"
+          value={eventDate}
+          onChangeText={setEventDate}
+          placeholder="DD/MM/AAAA"
+          labelColor="#ffffff"
+          placeholderTextColor="#5a139a"
+          backgroundColor="#ffffff"
+          keyboardType="numeric"
+          formatType={EFormatTypes.Date}
+        />
 
-          <ParticipantsCheckboxes
-            participants={availableParticipants}
-            selectedParticipants={participants}
-            onSelectParticipant={handleToggle}
-            label="Quem vai participar?"
-            labelColor="#fff"
-            containerStyle={{ width: 300 }}
-          />
-        </NewEventForm>
-      </ScrollView>
+        <ParticipantsCheckboxes
+          participants={availableParticipants}
+          selectedParticipants={participants}
+          onSelectParticipant={handleToggle}
+          label="Quem vai participar?"
+          labelColor="#fff"
+          containerStyle={{ width: 300 }}
+        />
+      </NewEventForm>
 
       <View style={buttonContainer}>
         <CreateButton

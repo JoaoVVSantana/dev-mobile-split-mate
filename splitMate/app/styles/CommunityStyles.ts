@@ -12,7 +12,7 @@ const CommunityStyles = StyleSheet.create({
   },
   buttonContainer: {
     position: 'absolute',
-    bottom: 120,
+    bottom: 70,
     left: 20,
     right: 20,
     zIndex: 1,
