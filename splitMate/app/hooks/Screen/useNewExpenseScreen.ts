@@ -4,6 +4,7 @@ import { router } from 'expo-router';
 import { useCurrentEventStore } from '~/store/useCurrentEventStore';
 import { useCreateNewExpense } from '~/hooks/Expense/useCreateNewExpense';
 import { useToastFeedback, EToastVariants } from '~/components/Toast/ToastFeedback';
+import { useCommunityStore } from '~/store/useCommunityStore';
 
 export function useNewExpenseScreen() {
   const [name, setName] = useState('');
@@ -13,6 +14,7 @@ export function useNewExpenseScreen() {
   const { currentEvent } = useCurrentEventStore();
   const { createExpense } = useCreateNewExpense();
   const { showToast } = useToastFeedback();
+  const { user } = useCommunityStore();
 
   const participants = currentEvent?.participants?.map(p => p.name) || [];
 
@@ -30,9 +32,19 @@ export function useNewExpenseScreen() {
 
   const handleCreate = () => {
     try {
+      if (!user || !currentEvent) {
+        showToast({
+          variant: EToastVariants.ERROR,
+          message: 'Erro: usuário ou evento não encontrado.',
+        });
+        return;
+      }
+
       const success = createExpense({
+        id: `${Date.now()}`, // Generate a temporary ID using timestamp
         name,
         value,
+        owner: user,
         participants: selectedParticipants,
       });
 

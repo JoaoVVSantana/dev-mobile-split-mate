@@ -1,19 +1,49 @@
 import { TFriend } from "~/types/TFriend";
+import { FriendRepository } from "~/persistence/friendRepository";
+import { DBUser } from "~/persistence/database";
 
-const mockFriends: TFriend[] = [
-  { id:'1', name: "João", email: "joao@email.com", debts: [] },
-  { id:'2',  name: "Ana", email: "ana@email.com", debts: [] },
-  { id:'3',  name: "Leticia", email: "Leticia@email.com", debts: [] },
-  { id:'4',  name: "Murilo", email: "murilo@email.com", debts: [] },
-  { id:'5',  name: "Lucas", email: "lucas@email.com, ", debts: [] },
-  { id:'6',  name: "Marcos", email: "marcos@email.com", debts: [] },
-  { id:'7',  name: "Fernanda", email: "fernanda@email.com", debts: [] },
-  { id:'8',  name: "Juliana", email: "juliana@email.com", debts: [] },
-  { id:'9',  name: "Carlos", email: "carlos@email.com", debts: [] },
-];
+// Convert DB model to domain model
+const toFriend = (user: DBUser): TFriend => ({
+  id: user.id,
+  name: user.name,
+  email: user.email || undefined,
+  debts: [] // Debts will be loaded separately when needed
+});
 
 export const FriendService = {
   async getAll(): Promise<TFriend[]> {
-    return mockFriends;
+    const users = await FriendRepository.getAll();
+    return users.map(toFriend);
   },
+
+  async getById(id: string): Promise<TFriend | null> {
+    const user = await FriendRepository.getById(id);
+    return user ? toFriend(user) : null;
+  },
+
+  async create(friend: Omit<TFriend, 'id' | 'debts'>): Promise<TFriend> {
+    const id = await FriendRepository.create(friend);
+    return {
+      id,
+      ...friend,
+      debts: []
+    };
+  },
+
+  async update(friend: TFriend): Promise<void> {
+    await FriendRepository.update({
+      id: friend.id,
+      name: friend.name,
+      email: friend.email
+    });
+  },
+
+  async delete(id: string): Promise<void> {
+    await FriendRepository.delete(id);
+  },
+
+  async findByEmail(email: string): Promise<TFriend | null> {
+    const user = await FriendRepository.findByEmail(email);
+    return user ? toFriend(user) : null;
+  }
 };
