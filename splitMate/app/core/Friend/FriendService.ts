@@ -1,19 +1,39 @@
 import { TFriend } from "~/types/TFriend";
-
-const mockFriends: TFriend[] = [
-  { id:'1', name: "João", email: "joao@email.com", debts: [] },
-  { id:'2',  name: "Ana", email: "ana@email.com", debts: [] },
-  { id:'3',  name: "Leticia", email: "Leticia@email.com", debts: [] },
-  { id:'4',  name: "Murilo", email: "murilo@email.com", debts: [] },
-  { id:'5',  name: "Lucas", email: "lucas@email.com, ", debts: [] },
-  { id:'6',  name: "Marcos", email: "marcos@email.com", debts: [] },
-  { id:'7',  name: "Fernanda", email: "fernanda@email.com", debts: [] },
-  { id:'8',  name: "Juliana", email: "juliana@email.com", debts: [] },
-  { id:'9',  name: "Carlos", email: "carlos@email.com", debts: [] },
-];
+import axiosInstance from '../../config/axios';
+import { createAxiosConfig } from '../../utils/api-helpers';
 
 export const FriendService = {
   async getAll(): Promise<TFriend[]> {
-    return mockFriends;
+    try {
+      const config = createAxiosConfig('GET_FRIENDS');
+      const { data } = await axiosInstance.get<TFriend[]>(config.url!);
+      return data;
+    } catch (error) {
+      console.error('Error fetching friends:', error);
+      throw error;
+    }
   },
+
+  async getById(id: string): Promise<TFriend> {
+    const config = createAxiosConfig('GET_FRIEND_BY_ID', 'DEFAULT', { id });
+    const { data } = await axiosInstance.get<TFriend>(config.url!);
+    return data;
+  },
+
+  async create(friend: Omit<TFriend, 'id'>): Promise<TFriend> {
+    const config = createAxiosConfig('POST_FRIEND');
+    const { data } = await axiosInstance.post<TFriend>(config.url!, friend);
+    return data;
+  },
+
+  async update(id: string, friend: TFriend): Promise<TFriend> {
+    const config = createAxiosConfig('PUT_FRIEND', 'DEFAULT', { id });
+    const { data } = await axiosInstance.put<TFriend>(config.url!, friend);
+    return data;
+  },
+
+  async delete(id: string): Promise<void> {
+    const config = createAxiosConfig('DELETE_FRIEND', 'DEFAULT', { id });
+    await axiosInstance.delete(config.url!);
+  }
 };

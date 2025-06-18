@@ -1,4 +1,5 @@
 import { AxiosRequestHeaders } from 'axios';
+import env from '../config/env';
 
 interface IReqConfig {
   baseURL?: string;
@@ -14,13 +15,40 @@ export interface IURLDictionary {
 }
 
 export const COMMON_REQ_CONFIG = {
-  BASE_URL: 'http://localhost:8080/api',
+  BASE_URL: env.API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
 };
 
 export const URL_DICTIONARY: IURLDictionary = {
+  // Users
+  GET_USERS: {
+    DEFAULT: {
+      url: '/users',
+    },
+  },
+  GET_USER_BY_ID: {
+    DEFAULT: {
+      url: '/users/:id',
+    },
+  },
+  POST_USER: {
+    DEFAULT: {
+      url: '/users',
+    },
+  },
+  PUT_USER: {
+    DEFAULT: {
+      url: '/users/:id',
+    },
+  },
+  DELETE_USER: {
+    DEFAULT: {
+      url: '/users/:id',
+    },
+  },
+
   // Events
   GET_EVENTS: {
     DEFAULT: {
