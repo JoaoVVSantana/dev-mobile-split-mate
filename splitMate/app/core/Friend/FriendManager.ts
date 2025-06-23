@@ -1,19 +1,19 @@
 import { TFriend } from '~/types/TFriend';
-import { FriendService } from '~/core/Friend/FriendService';
+import { FriendService, TFriendInput } from '~/core/Friend/FriendService';
 
 class FriendManager {
   private static normalize(friend: TFriend): TFriend {
-    return {
-      ...friend,
-      debts: Array.isArray(friend.debts) ? friend.debts : [],
-    };
+    return { ...friend, debts: Array.isArray(friend.debts) ? friend.debts : [] };
   }
-
 
   static async getAllFriends(): Promise<TFriend[]> {
     const raw = await FriendService.getAll();
-    const normalized = raw.map(this.normalize);
-    return this.sortByName(normalized);
+    return this.sortByName(raw.map(this.normalize));
+  }
+
+  static async createFriend(data: TFriendInput): Promise<TFriend> {
+    const created = await FriendService.createFriend(data);
+    return this.normalize(created);
   }
 
   static sortByName(friends: TFriend[]): TFriend[] {

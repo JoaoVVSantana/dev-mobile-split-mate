@@ -10,6 +10,7 @@ import {
   QueryDocumentSnapshot,
   DocumentData,
   getDocsFromServer,
+  updateDoc,
 } from "firebase/firestore";
 import { TEvent } from "~/types/TEvent";
 import { TFriend } from "~/types/TFriend";
@@ -17,10 +18,10 @@ import { IExpenseParticipant } from "~/types/IExpenseParticipant";
 import { TExpense } from "~/types/TExpense";
 
 class EventService {
+  private static uid = "1d3PdNbqEtVwXSrpiZRKxDx1eh43";
   private static eventsCol() {
-    const uid = auth.currentUser?.uid;
-    if (!uid) throw new Error("Usuário não autenticado");
-    return collection(db, "user", uid, "events");
+    if (!EventService.uid) throw new Error("Usuário não autenticado");
+    return collection(db, "user", EventService.uid, "events");
   }
 
   private static async eventFromSnap(
@@ -28,7 +29,6 @@ class EventService {
   ): Promise<TEvent> {
     const data = snap.data();
     const expSnap = await getDocs(collection(snap.ref, "expenses"));
-
     const expenses = expSnap.docs.map(
       (d) =>
         ({
@@ -36,7 +36,6 @@ class EventService {
           ...d.data(),
         } as TExpense)
     );
-
     return {
       id: snap.id,
       title: data.title,
@@ -59,13 +58,14 @@ class EventService {
     return this.eventFromSnap(snap as any);
   }
 
-  static async create(data: Omit<TEvent, "id" | "expenses">): Promise<TEvent> {
+  static async create(
+    data: Omit<TEvent, "id" | "expenses">
+  ): Promise<TEvent> {
     const ref = await addDoc(this.eventsCol(), {
       ...data,
       createdAt: Timestamp.now(),
       expenses: [],
     });
-
     return { ...data, id: ref.id, expenses: [] };
   }
 
@@ -86,18 +86,30 @@ class EventService {
         createdAt: Timestamp.now(),
       }
     );
-
     return { id: ref.id, isPayed: false, ...expense };
   }
+
+  static async updateExpense(
+    eventId: string,
+    expenseId: string,
+    data: Partial<TExpense>
+  ): Promise<void> {
+    const ref = doc(
+      this.eventsCol(),
+      eventId,
+      "expenses",
+      expenseId
+    );
+    await updateDoc(ref, data);
+  }
+
   static async deleteEvent(id: string): Promise<void> {
     const eventRef = doc(this.eventsCol(), id);
-
     const expensesSnapshot = await getDocs(collection(eventRef, "expenses"));
     const expenseDeletions = expensesSnapshot.docs.map((doc) =>
       deleteDoc(doc.ref)
     );
     await Promise.all(expenseDeletions);
-
     await deleteDoc(eventRef);
   }
 }

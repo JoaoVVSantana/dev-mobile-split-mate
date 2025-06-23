@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 import { TFriend } from '~/types/TFriend';
 import { useCommunityStore } from '~/store/useCommunityStore';
 import { EToastVariants, useToastFeedback } from '~/components/Toast/ToastFeedback';
-import { FriendService } from '~/core/Friend/FriendService';
-
+import FriendManager from '~/core/Friend/FriendManager';
 
 export function useCommunityScreen() {
   const [friendName, setFriendName] = useState('');
@@ -16,7 +15,7 @@ export function useCommunityScreen() {
   const toast = useToastFeedback();
 
   useEffect(() => {
-    FriendService.getAll()
+    FriendManager.getAllFriends()
       .then(setFriends)
       .catch(() =>
         toast.showToast({
@@ -36,7 +35,7 @@ export function useCommunityScreen() {
     }
 
     try {
-      const newFriend: TFriend = await FriendService.create({
+      const newFriend: TFriend = await FriendManager.createFriend({
         name: friendName.trim(),
         email: friendEmail.trim(),
       });

@@ -1,56 +1,42 @@
-import { useCurrentEventStore } from '~/store/useCurrentEventStore';
-import { useCommunityStore } from '~/store/useCommunityStore';
-import { TExpense } from '~/types/TExpense';
-import { IExpenseParticipant } from '~/types/IExpenseParticipant';
+import { useCurrentEventStore } from "~/store/useCurrentEventStore";
+import { useCommunityStore } from "~/store/useCommunityStore";
+import { TExpense } from "~/types/TExpense";
+import { IExpenseParticipant } from "~/types/IExpenseParticipant";
+import { EventManager } from "~/core/Event/EventManager";
 
 export function useExpenseScreen() {
-  const { currentExpense, setCurrentExpense, currentEvent, setCurrentEvent } = useCurrentEventStore();
+  const { currentExpense, setCurrentExpense, currentEvent, setCurrentEvent, updateExpense } =
+    useCurrentEventStore();
   const { user } = useCommunityStore();
 
-
-  const handlePay = (receiptImageUri?: string) => {
-    if (!currentExpense || !user) return;
-
-    const updatedParticipants: IExpenseParticipant[] = currentExpense.participants.map(
-      (participant) => {
-        if (participant.id === user.id) {
-          return {
-            ...participant,
-            hasPaid: true,
-            receiptImageUri: receiptImageUri ?? null,
-          };
-        }
-        return participant;
-      }
-    );
-
-    const updatedExpense: TExpense = {
-      ...currentExpense,
-      id: currentExpense.id,
-      participants: updatedParticipants,
-    };
-
-    setCurrentExpense(updatedExpense);
-
+  const persistExpense = async (updated: TExpense) => {
     if (currentEvent) {
-      const updatedEvent = {
-        ...currentEvent,
-        expenses: currentEvent.expenses.map((e) =>
-          e.id === updatedExpense.id ? updatedExpense : e
-        ),
-      };
-
-      setCurrentEvent(updatedEvent);
+      await EventManager.updateExpense(currentEvent.id, updated.id, updated);
+      updateExpense(currentEvent.id, updated);
     }
   };
 
+  const toggleParticipantPaid = (participantId: string) => {
+    if (!currentExpense) return;
+    const updatedParticipants = currentExpense.participants.map((p) =>
+      p.id === participantId ? { ...p, hasPaid: !p.hasPaid } : p
+    );
+    persistExpense({ ...currentExpense, participants: updatedParticipants });
+  };
+
+  const markExpensePaid = () => {
+    if (!currentExpense) return;
+    persistExpense({ ...currentExpense, isPayed: true });
+  };
+
   return {
-    id: currentExpense?.id ?? '',
-    name: currentExpense?.name ?? '',
+    id: currentExpense?.id ?? "",
+    name: currentExpense?.name ?? "",
     value: currentExpense?.value ?? 0,
     isPayed: currentExpense?.isPayed ?? false,
     participants: currentExpense?.participants ?? [],
     owner: currentExpense?.owner ?? null,
-    handlePay,
+    toggleParticipantPaid,
+    markExpensePaid,
   };
 }
