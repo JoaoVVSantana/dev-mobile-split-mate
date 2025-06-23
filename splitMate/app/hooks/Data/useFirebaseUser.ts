@@ -12,6 +12,8 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 
+import { useCommunityStore } from '~/store/useCommunityStore';
+
 interface IUserData {
   userName: string;
   userEmail: string;
@@ -25,40 +27,55 @@ export function useFirebaseUser(): IUserData {
     userDebt: 'R$ 0,00',
   });
 
+  const mockUserID = '1d3PdNbqEtVwXSrpiZRKxDx1eh43'; // Mock user ID for testing
+
+  const { setUser, setIsAuthenticated } = useCommunityStore.getState();
+
   useEffect(() => {
     const authenticate = async () => {
-      await signInAnonymously(auth); 
+      await signInAnonymously(auth);
     };
 
-    const loadUser = async (user: FirebaseUser) => {
-      const userRef = doc(db, 'user', user.uid);
+    const loadUserDoc = async (fbUser: FirebaseUser) => {
+      const userRef = doc(db, 'user', mockUserID);
       const docSnap = await getDoc(userRef);
 
       if (!docSnap.exists()) {
         await setDoc(userRef, {
           name: 'João Victor',
           email: 'joao.victor@gmail.com',
-          totalDebt: 150.0,
+          totalDebt: 0,
         });
       }
-      onSnapshot(userRef, (snapshot) => {
-        const data = snapshot.data();
+
+      onSnapshot(userRef, (snap) => {
+        const data = snap.data();
         if (data) {
+          setUser({
+            id: fbUser.uid,
+            name: data.name,
+            email: data.email,
+            debts: [],
+          });
+          setIsAuthenticated(true);     
+
           setUserData({
             userName: data.name,
             userEmail: data.email,
-            userDebt: `R$ ${data.totalDebt?.toFixed(2).replace('.', ',') ?? '0,00'}`,
+            userDebt: `R$ ${data.totalDebt
+              ?.toFixed(2)
+              .replace('.', ',') ?? '0,00'}`,
           });
         }
       });
     };
 
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) loadUser(user);
+    const unsub = onAuthStateChanged(auth, (fbUser) => {
+      if (fbUser) loadUserDoc(fbUser);
       else authenticate();
     });
 
-    return unsubscribe;
+    return unsub;
   }, []);
 
   return userData;

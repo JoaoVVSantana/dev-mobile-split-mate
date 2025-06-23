@@ -1,49 +1,61 @@
-import { useEffect, useState } from "react";
-import { useCommunityStore } from "~/store/useCommunityStore";
-import {
-  EToastVariants,
-  useToastFeedback,
-} from "~/components/Toast/ToastFeedback";
-import { TFriend } from "~/types/TFriend";
+import { useEffect, useState } from 'react';
+import { TFriend } from '~/types/TFriend';
+import { useCommunityStore } from '~/store/useCommunityStore';
+import { EToastVariants, useToastFeedback } from '~/components/Toast/ToastFeedback';
+import { FriendService } from '~/core/Friend/FriendService';
+
 
 export function useCommunityScreen() {
-  const [friendName, setFriendName] = useState("");
-  const [friendEmail, setFriendEmail] = useState("");
-  const friendsList = useCommunityStore((state) => state.friends);
-  const addFriend = useCommunityStore((state) => state.addFriend);
-  const toastFeedback = useToastFeedback();
+  const [friendName, setFriendName] = useState('');
+  const [friendEmail, setFriendEmail] = useState('');
 
-  const loadFriends = useCommunityStore((state) => state.loadFriends);
+  const friendsList = useCommunityStore((s) => s.friends);
+  const setFriends = useCommunityStore((s) => s.loadFriends);
+  const addFriendStore = useCommunityStore((s) => s.addFriend);
+
+  const toast = useToastFeedback();
 
   useEffect(() => {
-    loadFriends();
+    FriendService.getAll()
+      .then(setFriends)
+      .catch(() =>
+        toast.showToast({
+          message: 'Não foi possível carregar seus amigos',
+          variant: EToastVariants.ERROR,
+        }),
+      );
   }, []);
 
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!friendName.trim()) {
-      toastFeedback.showToast({
-        message: "Por favor, preencha o nome do amigo.",
+      toast.showToast({
+        message: 'Por favor, preencha o nome do amigo.',
         variant: EToastVariants.ERROR,
       });
       return;
     }
 
-    const newFriend: TFriend = {
-      id:'11',
-      name: friendName.trim(),
-      email: friendEmail.trim() || "",
-      debts: [],
-    };
+    try {
+      const newFriend: TFriend = await FriendService.create({
+        name: friendName.trim(),
+        email: friendEmail.trim(),
+      });
 
-    addFriend(newFriend);
+      addFriendStore(newFriend);
 
-    toastFeedback.showToast({
-      message: `${friendName} foi adicionado com sucesso!`,
-      variant: EToastVariants.SUCCESS,
-    });
+      toast.showToast({
+        message: `${newFriend.name} foi adicionado com sucesso!`,
+        variant: EToastVariants.SUCCESS,
+      });
 
-    setFriendName("");
-    setFriendEmail("");
+      setFriendName('');
+      setFriendEmail('');
+    } catch (err) {
+      toast.showToast({
+        message: 'Erro ao salvar amigo no Firebase',
+        variant: EToastVariants.ERROR,
+      });
+    }
   };
 
   return {

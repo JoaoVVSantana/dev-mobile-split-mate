@@ -28,30 +28,20 @@ export function useNewExpenseScreen() {
     );
   };
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     try {
-      const success = createExpense({
-        name,
-        value,
-        participants: selectedParticipants,
-      });
+  console.log('DEBUG:', { name, value, selectedParticipants, currentEvent });
+  const ok = await createExpense({ name, value, participants: selectedParticipants });
+  console.log('RESULT createExpense:', ok);
 
-      if (success) {
+      if (ok) {
         showToast({
           variant: EToastVariants.SUCCESS,
           message: 'Despesa criada com sucesso!',
         });
 
         setTimeout(() => {
-          try {
-            router.push('/views/EventScreen');
-          } catch (error) {
-            console.error('Erro ao redirecionar:', error);
-            showToast({
-              variant: EToastVariants.ERROR,
-              message: 'Erro ao redirecionar para a tela do evento.',
-            });
-          }
+          router.push('/views/EventScreen');
         }, 1500);
       } else {
         showToast({

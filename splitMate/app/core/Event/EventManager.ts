@@ -1,18 +1,29 @@
+import EventService from './EventService';
 import { TEvent } from '~/types/TEvent';
-import { EventService } from './EventService';
+import { TFriend } from '~/types/TFriend';
+import { IExpenseParticipant } from '~/types/IExpenseParticipant';
 
 export const EventManager = {
-  async getAllEvents(): Promise<TEvent[]> {
-    return EventService.getAll();
-  },
+  getAllEvents: () => EventService.getAll(),
 
   async getEventById(id: string): Promise<TEvent> {
-    const event = await EventService.getById(id);
-
-    if (!event.title) {
-      throw new Error('Evento inválido');
-    }
-
-    return event;
+    const ev = await EventService.getById(id);
+    if (!ev.title) throw new Error('Evento inválido');
+    return ev;
   },
+
+  createEvent: (data: Omit<TEvent, 'id' | 'expenses'>) =>
+    EventService.create(data),
+
+  addExpense: (
+    eventId: string,
+    data: {
+      name: string;
+      value: number;
+      owner: TFriend;
+      participants: IExpenseParticipant[];
+    },
+  ) => EventService.addExpense(eventId, data),
+
+  deleteEvent: (id: string) => EventService.deleteEvent(id),
 };

@@ -13,17 +13,17 @@ export const useHomeScreen = () => {
   const [isEditing, setIsEditing] = useState(false);
   const { loadFriends } = useCommunityStore();
 
-  useEffect(() => {
-    const fetchEvents = async () => {
-      try {
-        const data = await EventManager.getAllEvents();
-        setEvents(data);
-      } catch (error) {
-        console.error('Erro ao buscar eventos:', error);
-      }
-    };
-    fetchEvents();
-  }, []);
+useEffect(() => {
+  const fetchEvents = async () => {
+    try {
+      const data = await EventManager.getAllEvents();
+      setEvents(data);
+    } catch (error) {
+      console.error('Erro ao buscar eventos:', error);
+    }
+  };
+  fetchEvents();
+}, []); 
 
   useEffect(() => {
     const fetchFriends = async () => {
@@ -63,13 +63,17 @@ export const useHomeScreen = () => {
     }
   };
 
-  const deleteEvent = (event: TEvent) => {
-    try {
-      removeEvent(event.id);
-    } catch (error) {
-      console.error('Erro ao remover evento:', error);
-    }
-  };
+const deleteEvent = async (event: TEvent) => {
+  try {
+    await EventManager.deleteEvent(event.id); 
+    removeEvent(event.id);             
+    const fresh = await EventManager.getAllEvents();
+    setEvents(fresh);
+  } catch (error) {
+    console.error('Erro ao remover evento:', error);
+  }
+};
+
 
   const filteredEvents = events.filter((event) =>
     event.title.toLowerCase().includes(searchQuery.toLowerCase())

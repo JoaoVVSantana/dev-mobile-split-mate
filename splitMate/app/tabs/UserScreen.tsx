@@ -3,12 +3,12 @@ import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { useRouter } from 'expo-router';
 import BackArrowButton from '../components/Buttons/BackArrowButton';
 import TitleComponent from '../components/Title/TitleComponent';
-import { useUserInformationScreen } from '~/hooks/Screen/useUserInformationScreen';
+import { useFirebaseUser } from '~/hooks/Data/useFirebaseUser';
 
 
 export default function UserInformationScreen() {
   const router = useRouter();
-  const { userName, userEmail, userDebt } = useUserInformationScreen();
+  const { userName, userEmail, userDebt } = useFirebaseUser();
 
   return (
     <View style={styles.container}>
@@ -23,7 +23,7 @@ export default function UserInformationScreen() {
           <Text style={styles.userName}>{userName}</Text>
           <TouchableOpacity
             style={styles.editButton}
-            onPress={() => router.push('/EditUserInfoScreen')}
+            //onPress={() => router.push('/EditUserInfoScreen')}
           >
             <Text style={styles.editButtonText}>Editar</Text>
           </TouchableOpacity>

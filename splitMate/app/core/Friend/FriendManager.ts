@@ -1,24 +1,30 @@
-import { TFriend } from "~/types/TFriend";
+import { TFriend } from '~/types/TFriend';
+import { FriendService } from '~/core/Friend/FriendService';
 
-export const FriendManager = {
-  normalizeFriend(friend: TFriend): TFriend {
+class FriendManager {
+  private static normalize(friend: TFriend): TFriend {
     return {
       ...friend,
       debts: Array.isArray(friend.debts) ? friend.debts : [],
     };
-  },
+  }
 
-  normalizeAll(friends: TFriend[]): TFriend[] {
-    return friends.map(this.normalizeFriend);
-  },
 
-  sortByName(friends: TFriend[]): TFriend[] {
+  static async getAllFriends(): Promise<TFriend[]> {
+    const raw = await FriendService.getAll();
+    const normalized = raw.map(this.normalize);
+    return this.sortByName(normalized);
+  }
+
+  static sortByName(friends: TFriend[]): TFriend[] {
     return [...friends].sort((a, b) =>
-      a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" })
+      a.name.localeCompare(b.name, 'pt-BR', { sensitivity: 'base' }),
     );
-  },
+  }
 
-  findByEmail(friends: TFriend[], email: string): TFriend | undefined {
-    return friends.find(friend => friend.email === email);
-  },
-};
+  static findByEmail(friends: TFriend[], email: string): TFriend | undefined {
+    return friends.find((f) => f.email === email);
+  }
+}
+
+export default FriendManager;

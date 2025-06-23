@@ -4,58 +4,63 @@ import Toast from 'react-native-toast-message';
 
 import { useCurrentEventStore } from '~/store/useCurrentEventStore';
 import { useCommunityStore } from '~/store/useCommunityStore';
-import { TEvent } from '~/types/TEvent';
 import { TFriend } from '~/types/TFriend';
+import { EventManager } from '~/core/Event/EventManager';
 
 export function useNewEventScreen() {
   const [eventName, setEventName] = useState('');
   const [eventDate, setEventDate] = useState('');
-  const [participants, setParticipants] = useState<string[]>([]);
+  const [selectedNames, setSelectedNames] = useState<string[]>([]);
 
   const { addEvent, setCurrentEvent } = useCurrentEventStore();
   const { friends } = useCommunityStore();
   const router = useRouter();
 
-  const availableParticipants = friends.map((friend: TFriend) => friend.name);
+  const availableParticipants = friends.map((f) => f.name);
 
-  const handleToggle = (participant: string) => {
-    setParticipants((prev) =>
-      prev.includes(participant)
-        ? prev.filter((p) => p !== participant)
-        : [...prev, participant]
+  const handleToggle = (name: string) => {
+    setSelectedNames((prev) =>
+      prev.includes(name) ? prev.filter((n) => n !== name) : [...prev, name],
     );
   };
 
-  const handleCreateEvent = () => {
+  const handleCreateEvent = async () => {
+    if (!eventName.trim() || !eventDate.trim() || selectedNames.length === 0) {
+      Toast.show({
+        type: 'error',
+        text1: 'Preencha nome, data e participantes!',
+      });
+      return;
+    }
+
     try {
-      const newEvent: TEvent = {
-        id:'0',
+      const participants: TFriend[] = friends.filter((f) =>
+        selectedNames.includes(f.name),
+      );
+
+
+      const newEvent = await EventManager.createEvent({
         title: eventName.trim(),
         date: eventDate.trim(),
-        participants: friends,
-        expenses: [],
-      };
+        participants,
+      });
+
 
       addEvent(newEvent);
       setCurrentEvent(newEvent);
 
-      Toast.show({
-        type: 'success',
-        text1: 'Evento criado com sucesso!',
-      });
-
-      setTimeout(() => {
-        router.push('../../tabs/HomeScreen');
-      }, 500);
-    } catch (error) {
-      console.error('Erro ao criar evento:', error);
+      Toast.show({ type: 'success', text1: 'Evento criado com sucesso!' });
+      router.push('../../tabs/HomeScreen');
+    } catch (err) {
+      console.error('Erro ao criar evento:', err);
+      Toast.show({ type: 'error', text1: 'Falha ao salvar no Firebase' });
     }
   };
 
   return {
     eventName,
     eventDate,
-    participants,
+    participants: selectedNames,
     setEventName,
     setEventDate,
     availableParticipants,
