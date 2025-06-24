@@ -2,7 +2,7 @@ import { create } from 'zustand';
 import { TFriend } from '~/types/TFriend';
 import { TEvent } from '~/types/TEvent';
 import { TDebt } from '~/types/TDebt';
-import { FriendService } from '~/core/Friend/FriendService';
+import FriendManager from '~/core/Friend/FriendManager';
 
 interface CommunityStore {
   friends: TFriend[];
@@ -44,8 +44,7 @@ export const useCommunityStore = create<CommunityStore>((set, get) => ({
 
   async loadFriends() {
     if (!get().isAuthenticated) return;
-
-    const friends = await FriendService.getAll();
+    const friends = await FriendManager.getAllFriends();
     set({ friends });
   },
 
