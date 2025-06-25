@@ -9,7 +9,12 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.joaovvsantana.splitmate",
+      "googleServicesFile": "./GoogleService-Info.plist",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +32,6 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
-
       [
         "expo-splash-screen",
         {
@@ -51,12 +55,12 @@
       "eas": {
         "projectId": "f1882457-9f8c-4dca-9ee7-4856e28f56be"
       },
-    "FIREBASE_API_KEY": "AIzaSyDdDvxVGkoL6jCPbxncd9FhA3M5r5xby3g",
-    "FIREBASE_AUTH_DOMAIN": "splitmatedb.firebaseapp.com",
-    "FIREBASE_PROJECT_ID": "splitmatedb",
-    "FIREBASE_STORAGE_BUCKET": "splitmatedb.firebasestorage.app",
-    "FIREBASE_MESSAGING_SENDER_ID": "338951562108",
-    "FIREBASE_APP_ID": "1:338951562108:android:181342d954363f9575baf9"
+      "FIREBASE_API_KEY": "AIzaSyDdDvxVGkoL6jCPbxncd9FhA3M5r5xby3g",
+      "FIREBASE_AUTH_DOMAIN": "splitmatedb.firebaseapp.com",
+      "FIREBASE_PROJECT_ID": "splitmatedb",
+      "FIREBASE_STORAGE_BUCKET": "splitmatedb.firebasestorage.app",
+      "FIREBASE_MESSAGING_SENDER_ID": "338951562108",
+      "FIREBASE_APP_ID": "1:338951562108:android:181342d954363f9575baf9"
     },
     "owner": "joaovvsantana",
     "runtimeVersion": "1.0.0",
