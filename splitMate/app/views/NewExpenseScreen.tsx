@@ -14,6 +14,7 @@ import {
 } from "~/styles/NewExpenseStyles";
 import { EFormatTypes } from "~/types/EFormatTypes";
 import NewEventForm from "~/components/Form/NewEventForm";
+import { ToastProvider } from "~/components/Toast/ToastFeedback";
 
 export default function NewExpenseScreen() {
   const {
@@ -28,6 +29,7 @@ export default function NewExpenseScreen() {
   } = useNewExpenseScreen();
 
   return (
+    <ToastProvider>
     <View style={container}>
       <BackArrowButton />
       <TitleComponent title="Nova Despesa" color="#fff" />
@@ -75,5 +77,6 @@ export default function NewExpenseScreen() {
           />
         </View>
     </View>
+    </ToastProvider>
   );
 }

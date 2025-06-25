@@ -20,7 +20,6 @@ export function useEventScreen() {
     }
   };
 
-  console.log(currentEvent);
   return {
       title: currentEvent?.title ?? '',
       date: currentEvent?.date ?? '',

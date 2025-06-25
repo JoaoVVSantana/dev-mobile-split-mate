@@ -38,15 +38,6 @@ export function useFirebaseUser(): IUserData {
 
     const loadUserDoc = async (fbUser: FirebaseUser) => {
       const userRef = doc(db, 'user', mockUserID);
-      const docSnap = await getDoc(userRef);
-
-      if (!docSnap.exists()) {
-        await setDoc(userRef, {
-          name: 'João Victor',
-          email: 'joao.victor@gmail.com',
-          totalDebt: 0,
-        });
-      }
 
       onSnapshot(userRef, (snap) => {
         const data = snap.data();

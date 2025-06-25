@@ -26,7 +26,17 @@ export function useExpenseScreen() {
 
   const markExpensePaid = () => {
     if (!currentExpense) return;
-    persistExpense({ ...currentExpense, isPayed: true });
+
+    const updatedParticipants = currentExpense.participants.map((p) => ({
+      ...p,
+      hasPaid: true,
+    }));
+
+    persistExpense({
+      ...currentExpense,
+      isPayed: true,
+      participants: updatedParticipants,
+    });
   };
 
   return {

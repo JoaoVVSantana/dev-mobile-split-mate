@@ -31,11 +31,7 @@ export const useCommunityStore = create<CommunityStore>((set, get) => ({
       friends: [...state.friends, { ...friend, debts: [] }],
     })),
 
-  setUser: (user) =>
-    set((state) => ({
-      user: { ...user, debts: [] },
-      friends: [...state.friends, { ...user, debts: [] }],
-    })),
+  setUser: (user) => set(() => ({ user: { ...user, debts: [] } })),
 
   removeFriend: (name) =>
     set((state) => ({

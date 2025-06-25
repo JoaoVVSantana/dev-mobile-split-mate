@@ -12,7 +12,8 @@ export function useNewExpenseScreen() {
 
   const { currentEvent } = useCurrentEventStore();
   const { createExpense } = useCreateNewExpense();
-  const { showToast } = useToastFeedback();
+
+  const toast = useToastFeedback();
 
   const participants = currentEvent?.participants?.map(p => p.name) || [];
 
@@ -30,28 +31,29 @@ export function useNewExpenseScreen() {
 
   const handleCreate = async () => {
     try {
-  console.log('DEBUG:', { name, value, selectedParticipants, currentEvent });
-  const ok = await createExpense({ name, value, participants: selectedParticipants });
-  console.log('RESULT createExpense:', ok);
+
+      const ok = await createExpense({ name, value, participants: selectedParticipants });
 
       if (ok) {
-        showToast({
-          variant: EToastVariants.SUCCESS,
-          message: 'Despesa criada com sucesso!',
-        });
+        
+        toast.showToast({
+      variant: EToastVariants.SUCCESS,
+      message: 'Despesa criada com sucesso!',
+    });
+     setTimeout(() => {
+      router.back();
+    }, 2000);
 
-        setTimeout(() => {
-          router.push('/views/EventScreen');
-        }, 1500);
       } else {
-        showToast({
+        toast.showToast({
           variant: EToastVariants.ERROR,
           message: 'Erro ao criar despesa. Verifique os dados.',
         });
       }
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Erro inesperado ao criar despesa:', error);
-      showToast({
+      toast.showToast({
         variant: EToastVariants.ERROR,
         message: 'Erro inesperado ao criar despesa.',
       });

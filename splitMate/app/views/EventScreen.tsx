@@ -23,7 +23,10 @@ export default function EventScreen() {
 
       <AddExpenseButton title="Adicionar despesa" onPress={handleAddExpense} />
 
-      <ScrollView contentContainerStyle={cardsContainer}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={cardsContainer}>
         {expenses.map((item) => (
           <ExpenseCard
             key={item.id}

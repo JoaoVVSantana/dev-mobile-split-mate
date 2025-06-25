@@ -52,7 +52,7 @@ export default function CommunityScreen() {
 
         <NewEventForm>
           <ScrollView
-            style={{ maxHeight: 200, paddingRight: 10 }}
+            style={{ maxHeight: 300, paddingRight: 10 }}
             nestedScrollEnabled={true}
             showsVerticalScrollIndicator={true}
           >

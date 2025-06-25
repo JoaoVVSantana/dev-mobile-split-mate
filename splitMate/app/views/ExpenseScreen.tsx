@@ -1,4 +1,3 @@
-// ~/screens/ExpenseScreen.tsx
 import React from 'react';
 import {
   View,
@@ -11,6 +10,7 @@ import {
 import { useExpenseScreen } from '~/hooks/Screen/useExpenseScreen';
 import BackArrowButton from '~/components/Buttons/BackArrowButton';
 import TitleComponent from '~/components/Title/TitleComponent';
+import { ToastProvider } from '~/components/Toast/ToastFeedback';
 
 export default function ExpenseScreen() {
   const {
@@ -26,6 +26,7 @@ export default function ExpenseScreen() {
   const individualShare = value / totalParticipants;
 
   return (
+    <ToastProvider> 
     <View style={styles.container}>
       <BackArrowButton />
       <TitleComponent title={name} color="#ffffff" />
@@ -44,7 +45,6 @@ export default function ExpenseScreen() {
             .filter((p) => p.id !== owner?.id)
             .map((participant) => (
               <View key={participant.id} style={styles.participantRow}>
-                {/* Checkbox */}
                 <Pressable
                   onPress={() => toggleParticipantPaid(participant.id)}
                   style={styles.checkboxWrapper}
@@ -66,11 +66,12 @@ export default function ExpenseScreen() {
         </ScrollView>
       </ScrollView>
 
-      {/* Botão verde no rodapé */}
       <TouchableOpacity style={styles.payButton} onPress={markExpensePaid}>
         <Text style={styles.payButtonText}>Marcar despesa como paga</Text>
       </TouchableOpacity>
     </View>
+          
+    </ToastProvider>
   );
 }
 
@@ -107,7 +108,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     marginTop: 4,
   },
-  /* -------- participantes -------- */
   participantRow: {
     flexDirection: 'row',
     alignItems: 'center',
@@ -119,7 +119,6 @@ const styles = StyleSheet.create({
   },
   participantName: { color: '#fff', fontSize: 16, flex: 1, marginLeft: 8 },
   debtValue: { color: '#ffd5d5', fontSize: 16 },
-  /* -------- checkbox -------- */
   checkboxWrapper: { width: CHECKBOX_SIZE, height: CHECKBOX_SIZE },
   checkbox: {
     width: CHECKBOX_SIZE,
@@ -129,16 +128,15 @@ const styles = StyleSheet.create({
     borderRadius: 4,
   },
   checkboxChecked: {
-    backgroundColor: '#32cd32',
+    backgroundColor: '#38a37f',
     borderColor: '#32cd32',
   },
-  /* -------- botão verde -------- */
   payButton: {
     position: 'absolute',
     bottom: 15,
     left: 20,
     right: 20,
-    backgroundColor: '#32cd32',
+    backgroundColor: '#38a37f',
     borderRadius: 8,
     paddingVertical: 14,
     alignItems: 'center',

@@ -19,7 +19,7 @@ export function useCreateNewExpense() {
     value: string;
     participants: string[];
   }) => {
-    if (!currentEvent || !name || !value || participants.length === 0) {
+    if (!currentEvent) {
       return false;
     }
 
