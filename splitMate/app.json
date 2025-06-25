@@ -17,7 +17,7 @@
         "backgroundColor": "#5a139a"
       },
       "package": "com.joaovvsantana.splitmate",
-      "googleServicesFile": "./android/app/google-services.json"
+      "googleServicesFile": "./google-services.json"
     },
     "web": {
       "bundler": "metro",
@@ -27,6 +27,7 @@
     "plugins": [
       "expo-router",
       "expo-sqlite",
+
       [
         "expo-splash-screen",
         {
