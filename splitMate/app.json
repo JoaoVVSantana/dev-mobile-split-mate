@@ -59,9 +59,7 @@
     "FIREBASE_APP_ID": "1:338951562108:android:181342d954363f9575baf9"
     },
     "owner": "joaovvsantana",
-    "runtimeVersion": {
-      "policy": "appVersion"
-    },
+    "runtimeVersion": "1.0.0",
     "updates": {
       "url": "https://u.expo.dev/f1882457-9f8c-4dca-9ee7-4856e28f56be"
     }
