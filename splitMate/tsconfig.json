@@ -4,9 +4,13 @@
     "jsx": "react",
     "esModuleInterop": true,
     "strict": true,
+    "baseUrl": "app",
     "paths": {
+      "~/*": [
+        "*"
+      ],
       "@/*": [
-        "./*"
+        "*"
       ]
     }
   },
