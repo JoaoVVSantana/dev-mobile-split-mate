@@ -4,7 +4,6 @@
 - [About](#about)
 - [How to Run the Project](#how-to-run-the-project)
 - [Project Functionalities](#project-functionalities)
-- [Entities (Types)](#entities-types)
 - [Database Persistence Status](#database-persistence-status)
 - [Further Improvements](#further-improvements)
 
